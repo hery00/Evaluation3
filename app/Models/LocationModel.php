@@ -39,7 +39,6 @@ class LocationModel extends Model
                     ->findAll();
         return $data;
     }
-<<<<<<< Updated upstream
 
     public function calculateMonthsDifference($date_debut, $date_fin_prevus)
     {
@@ -49,9 +48,7 @@ class LocationModel extends Model
 
         return $query->getRow()->months_difference;
     }
-
-    public function getLocationsByDateByid($date1,$date2,$id_proprietaire)
-=======
+    
     
     public function getLocationsNetByProprio($id_proprietaire)
     {
@@ -61,7 +58,6 @@ class LocationModel extends Model
     }
     
     public function getLocationsNetByDateByProprio($date1,$date2,$id_proprietaire)
->>>>>>> Stashed changes
     {
         $data = $this->where('date_debut >=', $date1)
                      ->where('date_debut <=', $date2)
