@@ -10,7 +10,9 @@
                     <div class="card">
                       <div class="row g-0">
                         <div class="col-md-4">
-                          <img src="#" class="card-img-top img-fluid" alt="Image de Bien">
+                        <?php if (!empty($bien['photo']) && !empty($bien['photo']['nom'])): ?>
+                        <img src="<?= base_url('/assets/img/biens/' . esc($bien['photo']['nom'])) ?>" class="card-img-top" alt="Photo du bien">
+                        <?php endif; ?>
                         </div>
                         <div class="col-md-8">
                           <div class="card-body">

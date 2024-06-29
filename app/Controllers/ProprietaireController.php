@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ProprietaireModel;
 use App\Models\BienModel;
+use App\Models\PhotosModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class ProprietaireController extends BaseController
@@ -37,12 +38,18 @@ class ProprietaireController extends BaseController
         $user = $session->get('user');
         $id_proprio=$user['id_proprietaire'];
         $model = new BienModel();
+        $photomodel =  new PhotosModel();
         $data['biens'] = $model->getBiensByProprietaire($id_proprio);
-        $data =
-        [
-            'content' => view('Pages/ListeBiens',$data)
+    
+        foreach ($data['biens'] as &$bien)
+        {
+            $bien['photo'] = $photomodel->getPhotoByBien($bien['id_bien']);
+        }
+        $data = [
+            'content' => view('Pages/ListeBiens', $data)
         ];
-        return view('LayoutProprio/layout',$data);
+    
+        return view('LayoutProprio/layout', $data);
     }
 
 

@@ -84,10 +84,20 @@ CREATE TABLE photos(
     FOREIGN KEY(id_bien) REFERENCES bien(id_bien)
 );
 
-INSERT INTO photos (id_bien,nom) VALUES (1,'appart1.jpg');
-INSERT INTO photos (id_bien,nom) VALUES (1,'appart2.jpg');
-INSERT INTO photos (id_bien,nom) VALUES (1,'appart3.jpg');
-INSERT INTO photos (id_bien,nom) VALUES (1,'appart4.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (1,'immeuble1.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (1,'immeuble2.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (1,'immeuble3.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (1,'immeuble4.jpg');
+
+INSERT INTO photos (id_bien,nom) VALUES (2,'appart1.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (2,'appart2.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (2,'appart3.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (2,'appart4.jpg');
+
+INSERT INTO photos (id_bien,nom) VALUES (3,'maison1.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (3,'maison2.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (3,'maison3.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (3,'maison4.jpg');
 
 CREATE TABLE location (
     id_location SERIAL PRIMARY KEY,
@@ -95,9 +105,11 @@ CREATE TABLE location (
     id_client INTEGER NOT NULL,
     date_debut DATE NOT NULL,
     duree INTEGER NOT NULL,
+    date_fin_prevus DATE NOT NULL DEFAULT (date_debut + (duree || ' months')::INTERVAL),
     FOREIGN KEY (id_bien) REFERENCES bien(id_bien),
     FOREIGN KEY (id_client) REFERENCES client(id_client)
 );
+
 
 CREATE TABLE paiementloyer(
     id_paiement SERIAL PRIMARY KEY,
