@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AdminModel;
+use App\Models\LocationModel;
+use App\Models\LocationCommissionModel;
 
 class AdminController extends BaseController
 {
@@ -38,7 +40,7 @@ class AdminController extends BaseController
                 $session->set('nom', $user['nom']);
                 $session->set('login', $user['login']);
 
-                return redirect()->to('/'); 
+                return redirect()->to('/dashboard'); 
                 // echo "tafiditra";
             } else {
                 // Mot de passe incorrect
@@ -50,8 +52,6 @@ class AdminController extends BaseController
         }
     }
     
-
-
     public function Accueil()
     {
         $data = [
@@ -105,5 +105,44 @@ class AdminController extends BaseController
         return redirect()->to('admin_login');
     }
 
+    public function calculateCommission()
+    {
+        $locationModel = new LocationModel();
+        $locationCommissionModel = new LocationCommissionModel();
+
+        // Récupérer les dates du filtre depuis la requête POST
+        $date1 = $this->request->getPost('date1');
+        $date2 = $this->request->getPost('date2');
+
+        // Obtenir les informations des locations qui correspondent aux critères
+        $locations = $locationModel->getLocationsByDate($date1, $date2);
+
+        foreach ($locations as $location) {
+            $date_debut = $location['date_debut'];
+            $date_fin_prevus = $location['date_fin_prevus'];
+
+            // Calculer la durée en mois
+            $duree = 0;
+
+            // Vérifier si `date_debut` et `date_fin_prevus` sont toutes les deux entre `date1` et `date2`
+            if ($date_debut >= $date1 && $date_fin_prevus <= $date2) {
+                $duree = $locationModel->calculateMonthsDifference($date_debut, $date_fin_prevus);
+            } elseif ($date_debut >= $date1 && $date_debut <= $date2) {
+                // Vérifier si `date_debut` est entre `date1` et `date2` et calculer en utilisant `date2`
+                $duree = $locationModel->calculateMonthsDifference($date_debut, $date2);
+            }
+
+            // Calculer le montant de la commission
+            $loyer_par_mois = $location['loyer_par_mois'];
+            $taux_commission = $location['commission'] / 100;
+            $montant_commission = $loyer_par_mois * $duree * $taux_commission;
+
+            // Insérer ou mettre à jour la commission dans `location_commission`
+            $locationCommissionModel->updateCommission($location['id_location'], $location['id_bien'], $location['id_client'], $date_debut, $date_fin_prevus, $duree, $montant_commission);
+        }
+
+        // Redirection après le calcul
+        return redirect()->to('/somewhere'); // Modifiez le chemin selon vos besoins
+    }
     
 }

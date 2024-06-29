@@ -7,8 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/','AdminController::log');
 $routes->post('/login', 'AdminController::process');
-$routes->get('/accueil', 'AdminController::accueil');
-
+$routes->get('/dashboard', 'AdminController::accueil');
 
 $routes->get('/proprio', 'ProprietaireController::log');
 $routes->post('/proprio/login', 'ProprietaireController::loginproprietaire');
@@ -17,6 +16,8 @@ $routes->get('/proprio/listebiens', 'ProprietaireController::listebiensbyproprie
 $routes->get('/client', 'ClientController::index');
 $routes->post('/client/login', 'ClientController::loginclient');
 
+$routes->get('/client', 'ClientController::index');
+$routes->post('/client/login', 'ClientController::loginclient');
 
 
 // $routes->post('clientcontroller/authentification', 'ClientController::authentification');

@@ -39,6 +39,15 @@ class LocationModel extends Model
         return $data;
     }
 
+    public function calculateMonthsDifference($date_debut, $date_fin_prevus)
+    {
+        $query = $this->db->query("
+            SELECT EXTRACT(YEAR FROM AGE(?::date, ?::date)) * 12 + EXTRACT(MONTH FROM AGE(?::date, ?::date)) AS months_difference
+        ", [$date_fin_prevus, $date_debut, $date_fin_prevus, $date_debut]);
+
+        return $query->getRow()->months_difference;
+    }
+
     public function getLocationsByDateByid($date1,$date2,$id_proprietaire)
     {
         $data = $this->where('date_debut >=', $date1)

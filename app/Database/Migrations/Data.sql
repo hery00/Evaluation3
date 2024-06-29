@@ -155,6 +155,14 @@ CREATE TABLE paiementloyer(
     FOREIGN KEY (id_location) REFERENCES location(id_location)
 );
 
-
+CREATE TABLE location_commission (
+    id_location SERIAL PRIMARY KEY,
+    id_bien INTEGER NOT NULL,
+    id_client INTEGER NOT NULL,
+    date_debut DATE NOT NULL,
+    date_fin_prevus DATE,
+    duree INTEGER NOT NULL,
+    montant_commission DECIMAL(10, 2)
+);
 
 
