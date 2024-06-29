@@ -84,6 +84,11 @@ CREATE TABLE photos(
     FOREIGN KEY(id_bien) REFERENCES bien(id_bien)
 );
 
+INSERT INTO photos (id_bien,nom) VALUES (1,'appart1.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (1,'appart2.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (1,'appart3.jpg');
+INSERT INTO photos (id_bien,nom) VALUES (1,'appart4.jpg');
+
 CREATE TABLE location (
     id_location SERIAL PRIMARY KEY,
     id_bien INTEGER NOT NULL,

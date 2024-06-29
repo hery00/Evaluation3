@@ -1,8 +1,3 @@
-<?php 
-use App\Services\CourseService;
-$courseService = new CourseService();
-$courses = $courseService->getCourses();
-?>
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -30,7 +25,6 @@ $courses = $courseService->getCourses();
             </a>
         </li>
         <li class="nav-item">
-<<<<<<< Updated upstream
         <center><a href="<?= base_url('/generatecategories') ?>" class="btn btn-primary">Générer Catégories</a>
             </a></center>
         </li>
@@ -39,12 +33,10 @@ $courses = $courseService->getCourses();
             <a href action="<?= site_url('/resetables') ?>" class="btn btn-primary">Réinitialiser la base</a>
                 </form>
             </center>
-=======
             <a class="nav-link " href="<?=base_url('/listpenalite') ?>">
             <i class="bi bi-menu-button-wide"></i>
                 <span>Gerer les Pénalités</span>
             </a>
->>>>>>> Stashed changes
         </li>
       
         <li class="nav-item">

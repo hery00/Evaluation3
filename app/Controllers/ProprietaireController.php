@@ -42,7 +42,7 @@ class ProprietaireController extends BaseController
         [
             'content' => view('Pages/ListeBiens',$data)
         ];
-        return view('Layout/layout',$data);
+        return view('LayoutProprio/layout',$data);
     }
 
 
