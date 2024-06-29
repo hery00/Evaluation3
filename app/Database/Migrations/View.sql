@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW gain_admin as
+CREATE OR REPLACE VIEW v_gain_admin as
 SELECT
     l.id_location,
     l.id_bien,
