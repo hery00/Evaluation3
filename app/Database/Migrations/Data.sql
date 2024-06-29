@@ -59,7 +59,7 @@ CREATE TABLE bien (
     loyer_par_mois DECIMAL(10, 2) NOT NULL,
     id_proprietaire INTEGER NOT NULL,
     id_typebien INTEGER NOT NULL,
-    FOREIGN KEY (id_proprietaire) REFERENCES propriétaire(id_proprietaire),
+    FOREIGN KEY (id_proprietaire) REFERENCES proprietaire(id_proprietaire),
     FOREIGN KEY (id_typebien) REFERENCES typedebien(id_typebien)
 );
 
@@ -70,11 +70,11 @@ VALUES ('Immeuble de la Plaine', 'Un grand immeuble avec 10 appartements.', 'Ant
 
 -- Insertion d'un appartement
 INSERT INTO bien (nom, description, region, loyer_par_mois, id_proprietaire, id_typebien) 
-VALUES ('Appartement de l\'Avenue', 'Un appartement spacieux avec vue sur l\'avenue principale.', 'Fianarantsoa', 800.00, 2, 2);
+VALUES ('Appartement de l''Avenue', 'Un appartement spacieux avec vue sur l''avenue principale.', 'Fianarantsoa', 800.00, 2, 2);
 
 -- Insertion d'une maison traditionnelle (Trano)
 INSERT INTO bien (nom, description, region, loyer_par_mois, id_proprietaire, id_typebien) 
-VALUES ('Maison Traditionnelle', 'Une maison traditionnelle malgache avec un grand jardin.', 'Toamasina', 300.00, 3, 3);
+VALUES ('Maison Traditionnelle', 'Une maison traditionnelle malgache avec un grand jardin.', 'Toamasina', 300.00, 1, 3);
 
 
 CREATE TABLE photos(
