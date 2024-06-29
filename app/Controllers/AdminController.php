@@ -111,27 +111,53 @@ class AdminController extends BaseController
         $date1 = $this->request->getPost('date1');
         $date2 = $this->request->getPost('date2');
 
-        $locations = $locationModel->getLocationsByDate($date1, $date2);
-
+        if(empty($date1) && empty($date2))
+        {
+            $locations = $locationModel->getLocations();
+        }
+        else{
+            $locations = $locationModel->getLocationsByDate($date1, $date2);
+        }
         foreach ($locations as $location) {
             $date_debut = $location['date_debut'];
             $date_fin_prevus = $location['date_fin_prevus'];
+            $duree =0;
 
-            $duree = 0;
+           
 
-            //  si date_debut et date_fin_prevus sont tout les deux entre date1 et date2
-            if ($date_debut >= $date1 && $date_fin_prevus <= $date2) {
-                $duree = $locationModel->calculateMonthsDifference($date_debut, $date_fin_prevus);
-            } elseif ($date_debut >= $date1 && $date_debut <= $date2) {
-                // si date_debut est entre date1 et date2
-                $duree = $locationModel->calculateMonthsDifference($date_debut, $date2);
+            if($date_debut >= $date1 && $date_debut <= $date2)
+            {
+                if ($date_fin_prevus > $date_debut && $date_fin_prevus <= $date2)
+                {
+                    $duree = $location['duree'];
+                    $date_fin_prevus;
+                }
+                elseif( $date_fin_prevus > $date_debut && $date_fin_prevus >= $date2)
+                {
+                    $duree = $locationModel->calculateMonthsDifference($date_debut, $date2);
+                    $date_fin_prevus = date('Y-m-d', strtotime("+$duree months", strtotime($date_debut)));
+                }
             }
-
             $loyer_par_mois = $location['loyer_par_mois'];
             $taux_commission = $location['commission'] / 100;
             $montant_commission = $loyer_par_mois * $duree * $taux_commission;
 
-            $locationCommissionModel->updateCommission($location['id_location'], $location['id_bien'], $location['id_client'], $date_debut, $date_fin_prevus, $duree, $montant_commission);
+            $locationCommissionModel->updateCommission(
+                $location['id_location'],
+                $location['id_bien'],
+                $location['id_client'],
+                $location['id_proprietaire'],
+                $location['nom_bien'],
+                $location['description'],
+                $location['region'],
+                $location['loyer_par_mois'],
+                $location['nom_proprietaire'],
+                $location['nom_typebien'],
+                $location['commission'],
+                $date_debut,
+                $date_fin_prevus,
+                $duree,
+                $montant_commission);        
         }
 
         return redirect()->to('admin/gain'); 
