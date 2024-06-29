@@ -25,8 +25,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
-                <!-- Affichage des commissions -->
+                </div> 
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     <?php if (!empty($commissions) && is_array($commissions)): ?>
                         <?php foreach ($commissions as $commission): ?>
