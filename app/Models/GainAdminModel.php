@@ -18,7 +18,6 @@ class GainAdminModel extends Model
         'gain'
     ];
 
-    // Vous pouvez ajouter des méthodes personnalisées ici si nécessaire
     public function getGains()
     {
         return $this->findAll();
