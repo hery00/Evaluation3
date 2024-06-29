@@ -29,7 +29,7 @@ class Database extends Config
         'hostname'     => 'localhost',
         'username'     => 'postgres',
         'password'     => 'root',
-        'database'     => 'course',
+        'database'     => 'immobilier',
         'DBDriver'     => 'Postgre',
         'DBPrefix'     => '',
         'pConnect'     => false,
