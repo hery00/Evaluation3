@@ -108,7 +108,7 @@ CREATE TABLE paiementloyer(
     FOREIGN KEY (id_location) REFERENCES location(id_location)
 );
 
-CREATE OR REPLACE VIEW commission_admin as
+CREATE OR REPLACE VIEW gain_admin as
 SELECT
     l.id_location,
     l.id_bien,
