@@ -99,17 +99,52 @@ INSERT INTO photos (id_bien,nom) VALUES (3,'maison2.jpg');
 INSERT INTO photos (id_bien,nom) VALUES (3,'maison3.jpg');
 INSERT INTO photos (id_bien,nom) VALUES (3,'maison4.jpg');
 
+CREATE OR REPLACE FUNCTION calculate_end_date(start_date DATE, duration INTEGER)
+RETURNS DATE AS $$
+DECLARE
+    end_date DATE;
+BEGIN
+    -- Calculer la date de fin en ajoutant la durée en mois à la date de début
+    end_date := start_date + (duration || ' months')::INTERVAL;
+    RETURN end_date;
+END;
+$$ LANGUAGE plpgsql;
+
+
 CREATE TABLE location (
     id_location SERIAL PRIMARY KEY,
     id_bien INTEGER NOT NULL,
     id_client INTEGER NOT NULL,
     date_debut DATE NOT NULL,
     duree INTEGER NOT NULL,
-    date_fin_prevus DATE NOT NULL DEFAULT (date_debut + (duree || ' months')::INTERVAL),
+    date_fin_prevus DATE,
     FOREIGN KEY (id_bien) REFERENCES bien(id_bien),
     FOREIGN KEY (id_client) REFERENCES client(id_client)
 );
 
+CREATE OR REPLACE FUNCTION update_date_fin_prevus()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.date_fin_prevus := calculate_end_date(NEW.date_debut, NEW.duree);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_date_fin_prevus
+BEFORE INSERT OR UPDATE ON location
+FOR EACH ROW
+EXECUTE FUNCTION update_date_fin_prevus();
+
+INSERT INTO location (id_bien, id_client, date_debut, duree)
+VALUES (1, 1, '2024-07-01', 12); -- Id_bien = 1, Id_client = 1, Date de début = 1er juillet 2024, Durée = 12 mois
+
+-- Exemple 2
+INSERT INTO location (id_bien, id_client, date_debut, duree)
+VALUES (2, 2, '2024-08-15', 6); -- Id_bien = 2, Id_client = 2, Date de début = 15 août 2024, Durée = 6 mois
+
+-- Exemple 3
+INSERT INTO location (id_bien, id_client, date_debut, duree)
+VALUES (3, 1, '2024-09-10', 3);
 
 CREATE TABLE paiementloyer(
     id_paiement SERIAL PRIMARY KEY,
@@ -119,6 +154,7 @@ CREATE TABLE paiementloyer(
     loyer_paye DECIMAL(10, 2),
     FOREIGN KEY (id_location) REFERENCES location(id_location)
 );
+
 
 
 
