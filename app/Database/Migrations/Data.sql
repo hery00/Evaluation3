@@ -6,6 +6,7 @@ create table admin
     passe VARCHAR(255)
 );
 
+INSERT INTO admin (nom, login, passe) VALUES ('Admin', 'admin@gmail.com', '123');
 
 CREATE TABLE propriétaire (
     id_proprietaire SERIAL PRIMARY KEY,

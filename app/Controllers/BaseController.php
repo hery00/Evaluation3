@@ -23,13 +23,13 @@ use Psr\Log\LoggerInterface;
 abstract class BaseController extends Controller
 {
 
-    protected $courseService;
+    
+    /**protected $courseService;
 
     public function __construct()
     {
         $this->courseService = new CourseService();
     }
-    /**
      * Instance of the main Request object.
      *
      * @var CLIRequest|IncomingRequest

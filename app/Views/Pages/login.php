@@ -58,12 +58,11 @@
                   </div>
 
                   <form class="row g-3"  method="post" action="<?= base_url('/login') ?>">
-
                     <div class="col-12">
                       <label for="login" class="form-label">Nom d'utilisateur</label>
                       <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">Login</span>
-                        <input type="text" name="login" class="form-control" id="login" required>
+                        <span class="input-group-text" id="inputGroupPrepend">E-mail</span>
+                        <input type="email" name="email" class="form-control" id="email" required>
                         <div class="invalid-feedback">Veuillez entrer votre login</div>
                       </div>
                     </div>
@@ -82,9 +81,6 @@
                   </form>
                 </div>
               </div>
-
-             
-
             </div>
           </div>
         </div>

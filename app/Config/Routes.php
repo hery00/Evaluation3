@@ -5,9 +5,11 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/','UserController::log');
-$routes->get('inscrir', 'UserController::inscrir');
-$routes->post('inscription', 'UserController::register');
+$routes->get('/','AdminController::log');
+$routes->post('/login', 'AdminController::process');
+$routes->get('/accueil', 'AdminController::accueil');
+
+
 
 // $routes->post('clientcontroller/authentification', 'ClientController::authentification');
 // $routes->get('clientcontroller/listdevis', 'ClientController::listdevis');
