@@ -29,10 +29,10 @@ class AdminController extends BaseController
         // Vérifier si l'utilisateur avec cet email existe
         $user = $userModel->where('login', $email)->first();
     
-        if ($user) {
-            // Si l'utilisateur existe, vérifier le mot de passe
-            if ($user['passe'] === $passe) {
-                // Mot de passe correct
+        if ($user)
+        {
+            if ($user['passe'] === $passe)
+            {
                 $session = session();
                 $session->set('id_user', $user['id_admin']);
                 $session->set('nom', $user['nom']);

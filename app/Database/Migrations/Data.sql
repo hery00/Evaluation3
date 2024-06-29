@@ -8,23 +8,48 @@ create table admin
 
 INSERT INTO admin (nom, login, passe) VALUES ('Admin', 'admin@gmail.com', '123');
 
-CREATE TABLE propriétaire (
+create table type_user(
+    id_type_user serial primary key,
+    nom VARCHAR(255)
+);
+
+INSERT INTO type_user (nom) VALUES ('Professionnel');
+INSERT INTO type_user (nom) VALUES ('Particulier');
+
+CREATE TABLE proprietaire (
     id_proprietaire SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
-    telephone VARCHAR(20) NOT NULL
+    telephone VARCHAR(20) NOT NULL,
+    id_type_user INTEGER,
+    foreign key(id_type_user) references type_user(id_type_user)
 );
 
-CREATE TABLE client (
+INSERT INTO proprietaire (nom,telephone,id_type_user) VALUES ('Rakoto','335102567',1);
+INSERT INTO proprietaire (nom,telephone,id_type_user) VALUES ('Fanirina','341202496',1);
+
+CREATE TABLE client
+(
     id_client SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL
+    email VARCHAR(255) NOT NULL,
+    id_type_user INTEGER,
+    foreign key(id_type_user) references type_user(id_type_user)
 );
 
-CREATE TABLE typedebien (
+INSERT INTO client (nom,email,id_type_user) VALUES ('Randria','randria@gmail.com',1);
+INSERT INTO client (nom,email,id_type_user) VALUES ('Rajao','rajao@gmail.com',1);
+
+CREATE TABLE typedebien 
+(
     id_typebien SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     commission DECIMAL(5,2)
 );
+
+INSERT INTO typedebien (nom,commission) VALUES ('Immeuble',30);
+INSERT INTO typedebien (nom,commission) VALUES ('Appartement',20);
+INSERT INTO typedebien (nom,commission) VALUES ('trano',10);
+
 
 CREATE TABLE bien (
     id_bien SERIAL PRIMARY KEY,
@@ -37,6 +62,20 @@ CREATE TABLE bien (
     FOREIGN KEY (id_proprietaire) REFERENCES propriétaire(id_proprietaire),
     FOREIGN KEY (id_typebien) REFERENCES typedebien(id_typebien)
 );
+
+
+-- Insertion d'un immeuble
+INSERT INTO bien (nom, description, region, loyer_par_mois, id_proprietaire, id_typebien) 
+VALUES ('Immeuble de la Plaine', 'Un grand immeuble avec 10 appartements.', 'Antananarivo', 5000.00, 1, 1);
+
+-- Insertion d'un appartement
+INSERT INTO bien (nom, description, region, loyer_par_mois, id_proprietaire, id_typebien) 
+VALUES ('Appartement de l\'Avenue', 'Un appartement spacieux avec vue sur l\'avenue principale.', 'Fianarantsoa', 800.00, 2, 2);
+
+-- Insertion d'une maison traditionnelle (Trano)
+INSERT INTO bien (nom, description, region, loyer_par_mois, id_proprietaire, id_typebien) 
+VALUES ('Maison Traditionnelle', 'Une maison traditionnelle malgache avec un grand jardin.', 'Toamasina', 300.00, 3, 3);
+
 
 CREATE TABLE photos(
     id_photo serial primary key,

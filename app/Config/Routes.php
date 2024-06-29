@@ -10,6 +10,14 @@ $routes->post('/login', 'AdminController::process');
 $routes->get('/accueil', 'AdminController::accueil');
 
 
+$routes->get('/proprio', 'ProprietaireController::log');
+$routes->post('/proprio/login', 'ProprietaireController::loginproprietaire');
+$routes->get('/proprio/listebiens', 'ProprietaireController::listebiensbyproprietaire');
+
+$routes->get('/client', 'ClientController::index');
+$routes->post('/client/login', 'ClientController::loginclient');
+
+
 
 // $routes->post('clientcontroller/authentification', 'ClientController::authentification');
 // $routes->get('clientcontroller/listdevis', 'ClientController::listdevis');

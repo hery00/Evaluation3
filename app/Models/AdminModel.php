@@ -12,10 +12,9 @@ class AdminModel extends Model
 
     public function getAdminUser($login, $passe)
     {
-        $user = $this->db->table('admin')
-            ->where('login', $login)
-            ->where('passe', $passe)
-            ->get()->getRowArray();
+        $user = $this->where('login', $login)
+                     ->where('passe', $passe)
+                     ->get()->getRowArray();
             
         if(!empty($user))
         {
@@ -23,15 +22,6 @@ class AdminModel extends Model
         }
         return null;
        
-    }
-
-    public function getUser($login,$passe)
-     {
-        $user = $this->getAdminUser($login, $passe);
-        if ($user) {
-            return $user;
-        }
-        return null;
     }
 
     public function registerUser($data, $table)
