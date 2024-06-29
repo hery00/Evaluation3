@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\ProprietaireModel;
 use App\Models\BienModel;
 use App\Models\PhotosModel;
+use App\Models\LocationModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class ProprietaireController extends BaseController
@@ -27,9 +28,10 @@ class ProprietaireController extends BaseController
             $session = session();
             $session->set('user', $proprietaire);
             return redirect()->to('/proprio/listebiens');
-        } else {
+        } 
+        else {
             return redirect()->to('/proprio')->with('error', 'Votre numero est incorrecte!');
-                }
+        }
     }
 
     public function listebiensByProprietaire()
@@ -52,5 +54,53 @@ class ProprietaireController extends BaseController
         return view('LayoutProprio/layout', $data);
     }
 
+    public function ListeLocationNetByDateByProprio()
+    {
+        $session = session();
+        $user = $session->get('user');
+        $id_proprio = $user['id_proprietaire'];
+        $locationmodel = new LocationModel();
+        $date1 = $this->request->getGet('date1');
+        $date2 = $this->request->getGet('date2');
+
+        if (empty($date1) && empty($date2)) {
+            $data['ca'] = $locationmodel->getChiffreAffaireProprio($id_proprio);
+        } else {
+            $data['ca'] = $locationmodel->getChiffreAffaireProprioByDate($date1, $date2, $id_proprio);
+        }
+
+        if (empty($date1) && empty($date2))
+        {  
+            $data['locations'] = $locationmodel->getLocationsNetByProprio($id_proprio);
+        } else {
+            // Sinon, obtenir le chiffre d'affaire et les locations par date et propriétaire
+            $data['locations'] = $locationmodel->getLocationsNetByDateByProprio($date1, $date2, $id_proprio);
+        }
+
+        // echo "<pre>" . print_r($data, true) . "</pre>";
+
+        // Charger la vue de la page Location avec les données
+        $content = view('Pages/Location', $data);
+        $layout_data = [
+            'content' => $content
+        ];
+
+        return view('LayoutProprio/layout', $layout_data);
+    }
+
+
+    public function testGetChiffreAffaire()
+{
+    $id_proprietaire = 1;
+    $date1 ='01/01/2024';
+    $date2 ='01/07/2024';
+    $locationModel = new LocationModel();
+    $chiffreAffaire = $locationModel->getChiffreAffaireProprioByDate($date1,$date2,$id_proprietaire);
+    
+    // Affichage pour le débogage
+    echo '<pre>';
+    print_r($chiffreAffaire);
+    echo '</pre>';
+}
 
 }

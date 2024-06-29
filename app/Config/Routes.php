@@ -14,12 +14,21 @@ $routes->post('admin/calculateCommission', 'AdminController::calculateCommission
 $routes->get('/proprio', 'ProprietaireController::log');
 $routes->post('/proprio/login', 'ProprietaireController::loginproprietaire');
 $routes->get('/proprio/listebiens', 'ProprietaireController::listebiensbyproprietaire');
+$routes->get('/proprio/location', 'ProprietaireController::listelocationnetbydatebyproprio');
+
+
+
+
+$routes->get('/proprio/test', 'ProprietaireController::testgetchiffreaffaire');
 
 $routes->get('/client', 'ClientController::index');
 $routes->post('/client/login', 'ClientController::loginclient');
 
 $routes->get('/client', 'ClientController::index');
 $routes->post('/client/login', 'ClientController::loginclient');
+
+
+
 
 
 // $routes->post('clientcontroller/authentification', 'ClientController::authentification');
