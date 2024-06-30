@@ -63,7 +63,8 @@ class ProprietaireController extends BaseController
         $date1 = $this->request->getGet('date1');
         $date2 = $this->request->getGet('date2');
 
-        if (empty($date1) && empty($date2)) {
+        if (empty($date1) && empty($date2))
+        {
             $data['ca'] = $locationmodel->getChiffreAffaireProprio($id_proprio);
         } else {
             $data['ca'] = $locationmodel->getChiffreAffaireProprioByDate($date1, $date2, $id_proprio);
@@ -92,14 +93,14 @@ class ProprietaireController extends BaseController
     public function testGetChiffreAffaire()
 {
     $id_proprietaire = 1;
-    $date1 ='01/01/2024';
-    $date2 ='01/07/2024';
+    $date1 ='01/06/2024';
+    $date2 ='30/08/2024';
     $locationModel = new LocationModel();
-    $chiffreAffaire = $locationModel->getChiffreAffaireProprioByDate($date1,$date2,$id_proprietaire);
+    $difference = $locationModel->calculateMonthsDifference($date1,$date2);
     
     // Affichage pour le débogage
     echo '<pre>';
-    print_r($chiffreAffaire);
+    print_r($difference);
     echo '</pre>';
 }
 

@@ -13,7 +13,7 @@
                 <div class="row mb-4">
                     <div class="col-lg-12">
                         <h1 class="mb-4">Calculer la Commission</h1>
-                        <form action="<?= site_url('admin/calculateCommission') ?>" method="post" class="mb-5">
+                        <form action="<?= site_url('admin/gain') ?>" method="GET" class="mb-5">
                             <div class="mb-3">
                                 <label for="date1" class="form-label">Date Début:</label>
                                 <input type="date" id="date1" name="date1" class="form-control" required>

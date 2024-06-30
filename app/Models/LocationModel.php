@@ -40,16 +40,53 @@ class LocationModel extends Model
         return $data;
     }
 
-    public function calculateMonthsDifference($date_debut, $date_fin_prevus)
-    {
-        $query = $this->db->query("
-            SELECT EXTRACT(YEAR FROM AGE(?::date, ?::date)) * 12 + EXTRACT(MONTH FROM AGE(?::date, ?::date)) AS months_difference
-        ", [$date_fin_prevus, $date_debut, $date_fin_prevus, $date_debut]);
+    public function calculateMonthsDifference($date1, $date2)
+{
+    $dateTime1 = new \DateTime($date1);
+    $dateTime2 = new \DateTime($date2);
 
-        return $query->getRow()->months_difference;
+    // Récupérer le jour du mois pour la date de début et la date de fin
+    $dayOfMonthStart = (int) $dateTime1->format('d');
+    $dayOfMonthEnd = (int) $dateTime2->format('d');
+
+    // Récupérer le mois pour la date de début et la date de fin
+    $monthStart = (int) $dateTime1->format('m');
+    $monthEnd = (int) $dateTime2->format('m');
+
+    // Récupérer l'année pour la date de début et la date de fin
+    $yearStart = (int) $dateTime1->format('Y');
+    $yearEnd = (int) $dateTime2->format('Y');
+
+    // Calculer la différence en mois
+    $months_difference = $dateTime2->diff($dateTime1)->format('%m');
+
+    // Condition 1 : Si le jour de la date fin <= le jour de la date début mais le mois de la date début < mois de la date fin et les années sont les mêmes
+    if ($dayOfMonthEnd <= $dayOfMonthStart && $monthStart < $monthEnd && $yearStart == $yearEnd) {
+        $months_difference++;
     }
+
+    // Condition 2 : Si le jour de la date début < jour de la date fin et ils appartiennent au même mois et le jour de la date fin <= fin du mois
+    if ($dayOfMonthStart < $dayOfMonthEnd && $monthStart == $monthEnd && $dayOfMonthEnd <= $dateTime2->format('t')) {
+        $months_difference++;
+    }
+
+    // Condition 3 : Si le jour de la date fin >= premier jour de son mois et son mois > mois de la date début
+    if ($dayOfMonthEnd >= 1 && $monthEnd > $monthStart) {
+        $months_difference++;
+    }
+
+    // Assurer que le résultat est au moins 1 mois si la date de début et de fin sont les mêmes
     
-    
+    if ($months_difference <= 0)
+    {
+        $months_difference = 1;
+    }
+
+    return $months_difference;
+}
+
+
+
     public function getLocationsNetByProprio($id_proprietaire)
     {
         $data = $this->where('id_proprietaire',$id_proprietaire)

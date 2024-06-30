@@ -10,7 +10,7 @@ class LocationCommissionModel extends Model
     protected $primaryKey = 'id_location';
     protected $allowedFields = [
         'id_bien',
-        'id_proprietaire ',
+        'id_proprietaire',
         'nom_bien',
         'description',
         'region',
@@ -41,6 +41,7 @@ class LocationCommissionModel extends Model
     public function updateCommission($id_location, $id_bien, $id_client, $id_proprietaire, $nom_bien, $description, $region, $loyer_par_mois, $nom_proprietaire, $nom_typebien, $commission, $date_debut, $date_fin_prevus, $duree, $montant_commission)
     {
         $data = [
+            'id_location' =>$id_location,
             'id_bien' => $id_bien,
             'id_client' => $id_client,
             'id_proprietaire' => $id_proprietaire,

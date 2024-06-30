@@ -7,8 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/','AdminController::log');
 $routes->post('/login', 'AdminController::process');
-$routes->get('admin/gain', 'AdminController::accueil');
-$routes->post('admin/calculateCommission', 'AdminController::calculateCommission');
+// $routes->get('admin/gain', 'AdminController::accueil');
+$routes->get('admin/gain', 'AdminController::calculatecommission');
 
 
 $routes->get('/proprio', 'ProprietaireController::log');

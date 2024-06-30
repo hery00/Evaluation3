@@ -166,3 +166,22 @@ CREATE TABLE location_commission (
 );
 
 
+CREATE TABLE location_commission(
+    id_location INTEGER,
+    id_bien INT NOT NULL,
+    id_proprietaire INT NOT NULL,
+    nom_bien VARCHAR(255),
+    description TEXT,
+    region VARCHAR(255),
+    loyer_par_mois DECIMAL(10, 2),
+    nom_proprietaire VARCHAR(255),
+    nom_typebien VARCHAR(255),
+    commission DECIMAL(5, 2),
+    id_client INT NOT NULL,
+    date_debut DATE,
+    duree INT,
+    date_fin_prevus DATE,
+    montant_commission DECIMAL(10, 2)
+);
+
+
