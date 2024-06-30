@@ -155,6 +155,15 @@ CREATE TABLE paiementloyer(
     FOREIGN KEY (id_location) REFERENCES location(id_location)
 );
 
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_a_paye, loyer_paye) 
+VALUES (1, '2024-08-01', 5000.00, 3000.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_a_paye, loyer_paye) 
+VALUES (2, '2024-09-15', 800.00, 200.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_a_paye, loyer_paye) 
+VALUES (3, '2024-10-10', 300.00, 300.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_a_paye, loyer_paye) 
+VALUES (4, '2024-10-10', 300.00, 100.00);
+
 CREATE TABLE location_commission (
     id_location SERIAL PRIMARY KEY,
     id_bien INTEGER NOT NULL,

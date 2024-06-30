@@ -23,6 +23,8 @@ $routes->get('/proprio/test', 'ProprietaireController::testgetchiffreaffaire');
 
 $routes->get('/client', 'ClientController::index');
 $routes->post('/client/login', 'ClientController::loginclient');
+$routes->get('/client/listeloyer', 'ClientController::listeloyerbydatebyclient');
+
 
 $routes->get('/client', 'ClientController::index');
 $routes->post('/client/login', 'ClientController::loginclient');

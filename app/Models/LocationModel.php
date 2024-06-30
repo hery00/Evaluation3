@@ -103,6 +103,23 @@ class LocationModel extends Model
         return $data;
     }
 
+
+    public function getLocationsByClient($id_client)
+    {
+        $data = $this->where('id_client',$id_client)
+                    ->findAll();
+        return $data;
+    }
+    
+    public function getLocationsByDateByClient($date1,$date2,$id_client)
+    {
+        $data = $this->where('date_debut >=', $date1)
+                     ->where('date_debut <=', $date2)
+                     ->where('id_client',$id_client)
+                    ->findAll();
+        return $data;
+    }
+
     public function getChiffreAffaireProprio($id_proprietaire)
     {
         $builder = $this->db->table($this->table);
