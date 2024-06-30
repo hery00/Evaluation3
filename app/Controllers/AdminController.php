@@ -117,12 +117,13 @@ class AdminController extends BaseController
     }
 
     $data = []; // Initialise $data comme un tableau
+    $totalLoyerParMois = 0;
+    $totalCommission = 0;
 
     foreach ($locations as $location) {
         $date_debut = $location['date_debut'];
         $date_fin_prevus = $location['date_fin_prevus'];
         $duree = $location['duree'];
-
 
         if ($date_debut >= $date1 && $date_debut < $date2) {
             if ($date_fin_prevus > $date_debut && $date_fin_prevus <= $date2) {
@@ -145,22 +146,14 @@ class AdminController extends BaseController
             }
         }
 
-        // // Vérification et ajustement des dates et de la durée
-        // if ($date_debut >= $date1 && $date_debut <= $date2) {
-        //     if ($date_fin_prevus > $date_debut && $date_fin_prevus <= $date2) {
-        //         // Cas où date_fin_prevus est entre date1 et date2
-        //         $duree = $location['duree'];
-        //     } elseif ($date_fin_prevus > $date_debut && $date_fin_prevus >= $date2) {
-        //         // Calcul de la durée en mois entre $date_debut et $date2
-        //         $duree = $locationModel->calculateMonthsDifference($date_debut, $date2);
-        //         // Calcul de la nouvelle date_fin_prevus en ajoutant $duree mois à $date_debut
-        //         $date_fin_prevus = $date2;
-        //     }
-        // }
+       
 
         $loyer_par_mois = $location['loyer_par_mois'];
         $taux_commission = $location['commission'] / 100;
         $montant_commission = $loyer_par_mois * $duree * $taux_commission;
+
+        $totalLoyerParMois += $loyer_par_mois;
+        $totalCommission += $montant_commission;
 
         $data[] = [
             'id_location' => $location['id_location'],
@@ -176,10 +169,12 @@ class AdminController extends BaseController
             'date_fin_prevus' => $date_fin_prevus,
             'duree' => $duree,
             'montant_commission' => $montant_commission,
+            'total_loyer_commission' => $loyer_par_mois + $montant_commission,
         ];
     }
 
-    $content = view('Pages/gainadmin', ['commissions' => $data]);
+    $finalTotal = $totalLoyerParMois + $totalCommission;
+    $content = view('Pages/gainadmin', ['commissions' => $data , 'final_total' => $finalTotal]);
 
     $layout_data = [
         'content' => $content

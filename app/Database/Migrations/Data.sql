@@ -150,47 +150,59 @@ CREATE TABLE paiementloyer(
     id_paiement SERIAL PRIMARY KEY,
     id_location INTEGER NOT NULL,
     date_paiement DATE NOT NULL,
-    loyer_a_paye DECIMAL(10, 2),
     loyer_paye DECIMAL(10, 2),
     FOREIGN KEY (id_location) REFERENCES location(id_location)
 );
 
-INSERT INTO paiementloyer (id_location, date_paiement, loyer_a_paye, loyer_paye) 
-VALUES (1, '2024-08-01', 5000.00, 3000.00);
-INSERT INTO paiementloyer (id_location, date_paiement, loyer_a_paye, loyer_paye) 
-VALUES (2, '2024-09-15', 800.00, 200.00);
-INSERT INTO paiementloyer (id_location, date_paiement, loyer_a_paye, loyer_paye) 
-VALUES (3, '2024-10-10', 300.00, 300.00);
-INSERT INTO paiementloyer (id_location, date_paiement, loyer_a_paye, loyer_paye) 
-VALUES (4, '2024-10-10', 300.00, 100.00);
 
-CREATE TABLE location_commission (
-    id_location SERIAL PRIMARY KEY,
-    id_bien INTEGER NOT NULL,
-    id_client INTEGER NOT NULL,
-    date_debut DATE NOT NULL,
-    date_fin_prevus DATE,
-    duree INTEGER NOT NULL,
-    montant_commission DECIMAL(10, 2)
-);
+-- Paiements pour la location avec id_location = 1
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (1, '2024-01-15', 500.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (1, '2024-02-15', 500.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (1, '2024-03-15', 500.00);
+
+-- Paiements pour la location avec id_location = 2
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (2, '2024-01-10', 750.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (2, '2024-02-10', 750.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (2, '2024-03-10', 750.00);
+
+-- Paiements pour la location avec id_location = 3
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (3, '2024-01-20', 600.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (3, '2024-02-20', 600.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (3, '2024-03-20', 600.00);
+
+-- Paiements pour la location avec id_location = 4
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (4, '2024-01-05', 800.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (4, '2024-02-05', 800.00);
+INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (4, '2024-03-05', 800.00);
 
 
-CREATE TABLE location_commission(
-    id_location INTEGER,
-    id_bien INT NOT NULL,
-    id_proprietaire INT NOT NULL,
-    nom_bien VARCHAR(255),
-    description TEXT,
-    region VARCHAR(255),
-    loyer_par_mois DECIMAL(10, 2),
-    nom_proprietaire VARCHAR(255),
-    nom_typebien VARCHAR(255),
-    commission DECIMAL(5, 2),
-    id_client INT NOT NULL,
-    date_debut DATE,
-    duree INT,
-    date_fin_prevus DATE,
-    montant_commission DECIMAL(10, 2)
-);
+-- CREATE TABLE location_commission (
+--     id_location SERIAL PRIMARY KEY,
+--     id_bien INTEGER NOT NULL,
+--     id_client INTEGER NOT NULL,
+--     date_debut DATE NOT NULL,
+--     date_fin_prevus DATE,
+--     duree INTEGER NOT NULL,
+--     montant_commission DECIMAL(10, 2)
+-- );
+
+
+-- CREATE TABLE location_commission(
+--     id_location INTEGER,
+--     id_bien INT NOT NULL,
+--     id_proprietaire INT NOT NULL,
+--     nom_bien VARCHAR(255),
+--     description TEXT,
+--     region VARCHAR(255),
+--     loyer_par_mois DECIMAL(10, 2),
+--     nom_proprietaire VARCHAR(255),
+--     nom_typebien VARCHAR(255),
+--     commission DECIMAL(5, 2),
+--     id_client INT NOT NULL,
+--     date_debut DATE,
+--     duree INT,
+--     date_fin_prevus DATE,
+--     montant_commission DECIMAL(10, 2)
+-- );
 
 

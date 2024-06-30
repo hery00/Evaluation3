@@ -30,40 +30,38 @@
                                 </div>
                             </form>
                             <?php if (!empty($loyers) && is_array($loyers)): ?>
-                            <table class="table">
+                            <table>
                                 <thead>
                                     <tr>
                                         <th>ID Location</th>
-                                        <th>Nom Bien</th>
-                                        <th>Description</th>
-                                        <th>Region</th>
-                                        <th>Loyer Par Mois</th>
-                                        <th>Nom Propriétaire</th>
-                                        <th>Nom Type Bien</th>
-                                        <th>Commission</th>
-                                        <th>Date Début</th>
-                                        <th>Date Fin Prévu</th>
-                                        <th>Montant Loyer</th>
-                                        <th>Loyer À Payer</th>
+                                        <th>Nom du Bien</th>
+                                        <th>Région</th>
+                                        <th>Propriétaire</th>
+                                        <th>Commission ( % )</th>
+                                        <th>Date de Début</th>
+                                        <th>Date de Fin</th>
+                                        <th>Duree en mois</th>
+                                        <th>Montant du Loyer</th>
+                                        <th>Loyer à Payer</th>
+                                        <th>Loyer Payé</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($loyers as $loyer): ?>
-                                    <tr>
-                                        <td><?= esc($loyer['id_location']); ?></td>
-                                        <td><?= esc($loyer['nom_bien']); ?></td>
-                                        <td><?= esc($loyer['description']); ?></td>
-                                        <td><?= esc($loyer['region']); ?></td>
-                                        <td><?= esc($loyer['loyer_par_mois']); ?></td>
-                                        <td><?= esc($loyer['nom_proprietaire']); ?></td>
-                                        <td><?= esc($loyer['nom_typebien']); ?></td>
-                                        <td><?= esc($loyer['commission']); ?></td>
-                                        <td><?= esc($loyer['date_debut']); ?></td>
-                                        <td><?= esc($loyer['date_fin_prevus']); ?></td>
-                                        <td><?= esc($loyer['montant_loyer']); ?></td>
-                                        <td><?= esc($loyer['loyer_a_payer']); ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                    <?php foreach ($loyers as $loyer): ?>
+                                        <tr>
+                                            <td><?= esc($loyer['id_location']) ?></td>
+                                            <td><?= esc($loyer['nom_bien']) ?></td>
+                                            <td><?= esc($loyer['region']) ?></td>
+                                            <td><?= esc($loyer['nom_proprietaire']) ?></td>
+                                            <td><?= esc($loyer['commission']) ?> %</td>
+                                            <td><?= esc($loyer['date_debut']) ?></td>
+                                            <td><?= esc($loyer['date_fin_prevus']) ?></td>
+                                            <td><?= esc($loyer['duree']) ?></td>
+                                            <td><?= esc($loyer['montant_loyer']) ?> Ar</td>
+                                            <td><?= esc($loyer['loyer_a_payer']) ?> Ar</td>
+                                            <td><?= esc($loyer['loyer_paye']) ?> Ar</td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                             <?php else: ?>

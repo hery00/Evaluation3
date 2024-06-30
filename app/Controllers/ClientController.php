@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\ClientModel;
 use App\Models\LocationModel;
+use App\Models\PaiementModel;
 use App\Models\LoyerModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -36,7 +37,8 @@ class ClientController extends BaseController
     $user = $session->get('user');
     $id_client = $user['id_client'];
     $locationmodel = new LocationModel();
-
+    $paimentModel = new PaiementModel();
+    
     $date1 = $this->request->getGet('date1');
     $date2 = $this->request->getGet('date2');
 
@@ -50,7 +52,9 @@ class ClientController extends BaseController
 
     // Obtenir les locations en fonction des dates fournies
     if ($date1 == null && $date2 == null) {
+        
         $locations = $locationmodel->getLocationsByClient($id_client);
+        
     } else {
         $locations = $locationmodel->getLocationsByDateByClient($date1, $date2, $id_client);
     }
@@ -61,8 +65,11 @@ class ClientController extends BaseController
         $date_debut = $location['date_debut'];
         $date_fin_prevus = $location['date_fin_prevus'];
         $duree = $location['duree'];
+        $id_location=$location['id_location'];
+        $totalPayer = $paimentModel->getTotalPaid($id_location);
+        
 
-        // Calculer la durée en mois et ajuster les dates si nécessaire
+
         if ($date_debut >= $date1 && $date_debut < $date2) {
             if ($date_fin_prevus > $date_debut && $date_fin_prevus <= $date2) {
                 $duree = $locationmodel->calculateMonthsDifference($date_debut, $date_fin_prevus);
@@ -86,7 +93,7 @@ class ClientController extends BaseController
 
         $loyer_par_mois = $location['loyer_par_mois'];
         $montant_loyer = $loyer_par_mois * $duree;
-        $loyer_a_payer = $montant_loyer;
+        $resteapayer = ($location['loyer_par_mois'] * $duree) - $totalPayer;
 
         $data[] = [
             'id_location' => $location['id_location'],
@@ -102,8 +109,10 @@ class ClientController extends BaseController
             'commission' => $location['commission'],
             'date_debut' => $date_debut,
             'date_fin_prevus' => $date_fin_prevus,
+            'duree' =>$duree,
             'montant_loyer' => $montant_loyer,
-            'loyer_a_payer' => $loyer_a_payer
+            'loyer_a_payer' => $resteapayer,
+            'loyer_paye' => $totalPayer
         ];
     }
 
