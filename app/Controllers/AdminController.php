@@ -106,8 +106,7 @@ class AdminController extends BaseController
     public function calculateCommission()
 {
     $locationModel = new LocationModel();
-    $locationCommissionModel = new LocationCommissionModel();
-
+    
     $date1 = $this->request->getGet('date1');
     $date2 = $this->request->getGet('date2');
 
