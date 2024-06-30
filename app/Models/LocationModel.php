@@ -60,6 +60,7 @@ function calculateMonthsDifference($startDate, $endDate) {
 }
 
 
+
     public function getLocationsNetByProprio($id_proprietaire)
     {
         $data = $this->where('id_proprietaire',$id_proprietaire)

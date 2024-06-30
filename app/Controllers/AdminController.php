@@ -123,18 +123,40 @@ class AdminController extends BaseController
         $date_fin_prevus = $location['date_fin_prevus'];
         $duree = $location['duree'];
 
-        // Vérification et ajustement des dates et de la durée
-        if ($date_debut >= $date1 && $date_debut <= $date2) {
+
+        if ($date_debut >= $date1 && $date_debut < $date2) {
             if ($date_fin_prevus > $date_debut && $date_fin_prevus <= $date2) {
-                // Cas où date_fin_prevus est entre date1 et date2
                 $duree = $location['duree'];
             } elseif ($date_fin_prevus > $date_debut && $date_fin_prevus >= $date2) {
-                // Calcul de la durée en mois entre $date_debut et $date2
                 $duree = $locationModel->calculateMonthsDifference($date_debut, $date2);
-                // Calcul de la nouvelle date_fin_prevus en ajoutant $duree mois à $date_debut
                 $date_fin_prevus = $date2;
+            } else {
+                $duree = $locationModel->calculateMonthsDifference($date_debut, $date_fin_prevus);
+            }
+        } elseif ($date_debut <= $date1 && $date_fin_prevus >= $date1) {
+            if ($date_fin_prevus <= $date2) {
+                $duree = $locationModel->calculateMonthsDifference($date1, $date_fin_prevus);
+                $date_debut = $date1;
+            } elseif ($date_fin_prevus > $date2) {
+                $duree = $locationModel->calculateMonthsDifference($date1, $date2);
+                $date_fin_prevus = $date2;
+            } else {
+                $duree = $locationModel->calculateMonthsDifference($date_debut, $date_fin_prevus);
             }
         }
+
+        // // Vérification et ajustement des dates et de la durée
+        // if ($date_debut >= $date1 && $date_debut <= $date2) {
+        //     if ($date_fin_prevus > $date_debut && $date_fin_prevus <= $date2) {
+        //         // Cas où date_fin_prevus est entre date1 et date2
+        //         $duree = $location['duree'];
+        //     } elseif ($date_fin_prevus > $date_debut && $date_fin_prevus >= $date2) {
+        //         // Calcul de la durée en mois entre $date_debut et $date2
+        //         $duree = $locationModel->calculateMonthsDifference($date_debut, $date2);
+        //         // Calcul de la nouvelle date_fin_prevus en ajoutant $duree mois à $date_debut
+        //         $date_fin_prevus = $date2;
+        //     }
+        // }
 
         $loyer_par_mois = $location['loyer_par_mois'];
         $taux_commission = $location['commission'] / 100;
