@@ -114,6 +114,18 @@ function calculateMonthsDifference($startDate, $endDate) {
         return $query->getRowArray();
     }
 
+    public function insertIdBien($id)
+        {
+            $sql = 'UPDATE location 
+                    SET id_bien = ?
+                    WHERE id_location = (
+                        SELECT id_location 
+                        FROM location 
+                        WHERE id_bien IS NULL 
+                        LIMIT 1
+                    )';
+            $this->db->query($sql, [$id]);
+        }
    
 
 }

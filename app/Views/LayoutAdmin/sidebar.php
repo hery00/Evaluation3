@@ -6,17 +6,10 @@
                 <span>Dashboard</span>
             </a>
         <li class="nav-item">
-        <a class="nav-link " href="<?= base_url('import') ?>">
+        <a class="nav-link " href="<?= base_url('admin/import') ?>">
             <i class="bi bi-menu-button-wide"></i>
             <span>Import de données</span>
         </a>
-        </li>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link " href="<?= base_url('linkPoint') ?>">
-                <i class="bi bi-grid"></i>
-                <span>Import des points</span>
-            </a>
         </li>
         <li class="nav-item">
             <a class="nav-link " href="<?=base_url('/listetapeadmin') ?>">

@@ -6,9 +6,9 @@ use CodeIgniter\Model;
 
 class ImportModel extends Model
 {
-    protected $table = 'import_etape';
+    protected $table = 'import_bien';
 
-    protected $allowedFields = ['etape', 'longueur', 'nb_coureur', 'rang_etape', 'date_depart', 'heure_depart'];
+    protected $allowedFields = ['reference', 'nom', 'description', 'type', 'region', 'loyer_mensuel', 'proprietaire'];
 
     // Méthode pour insérer les données
     // public function insertCsvData($data)
@@ -42,50 +42,104 @@ class ImportModel extends Model
             return $donnees;
         }
     
-    public function insertCsvEquipe()
+    public function insertCsvProprietaire()
     {
-        $sql = 'SELECT equipe FROM import_resultat GROUP BY equipe';
-        $query = $this->db->query($sql);
-        foreach($query->getResultArray() as $row)
-        {
-            $equipeModel = new EquipeModel();
-            $nom = $row['equipe'];
-            $login = $row['equipe']."@gmail.com";
-            $passe = $nom;
+        $this->db->query('ALTER TABLE bien DISABLE TRIGGER ALL;');
 
-            $equipeModel->insertEquipe($nom, $login, $passe);
-        }
-    }
-    
-    public function insertCsvCoureur()
+        $sql="INSERT INTO proprietaire (telephone) 
+        SELECT proprietaire 
+        FROM import_bien 
+        GROUP BY proprietaire";
+        
+        $this->db->query($sql);
+        $this->db->query('ALTER TABLE bien ENABLE TRIGGER ALL;');
+    }   
+
+    public function insertCsvTypedebien()
     {
-        $sql = 'SELECT numero_dossard, nom, genre, date_naissance FROM import_resultat GROUP BY numero_dossard, nom, genre, date_naissance';
-        $query = $this->db->query($sql);
-        foreach($query->getResultArray() as $row)
-        {
-            $coureurModel = new CoureurModel();
-            $nom = $row['nom'];
-            $numero_dossard = $row['numero_dossard'];
-            $genre = $row['genre']; 
-            $date_naissance = $row['date_naissance']; 
+        $this->db->query('ALTER TABLE bien DISABLE TRIGGER ALL;');
 
-            $coureurModel->insertCoureur($nom, $numero_dossard, $genre, $date_naissance);
-        }
+        $sql="INSERT INTO typedebien (nom) 
+        SELECT type 
+        FROM import_bien 
+        GROUP BY type";
+        
+        $this->db->query($sql);
+        $this->db->query('ALTER TABLE bien ENABLE TRIGGER ALL;');
+    }   
+
+
+    public function insertCsvBien()
+    {
+        $this->db->query('ALTER TABLE bien DISABLE TRIGGER ALL;');
+
+        $sql="INSERT INTO bien (reference, nom, description, region, loyer_par_mois, id_proprietaire, id_typebien) 
+        SELECT ib.reference, ib.nom, ib.description, ib.region, ib.loyer_mensuel, p.id_proprietaire, t.id_typebien 
+        FROM import_bien ib 
+        JOIN proprietaire p ON p.telephone = ib.proprietaire 
+        JOIN typedebien t ON t.nom = ib.type 
+        GROUP BY ib.reference, ib.nom, ib.description, t.id_typebien, ib.region, ib.loyer_mensuel, p.id_proprietaire";
+        
+        $this->db->query($sql);
+        $this->db->query('ALTER TABLE bien ENABLE TRIGGER ALL;');
     }
-    
-
-    // public function insertCsvArrivee()
+    //location
+    // public function insertCsvIdBienInLocation()
     // {
-    //     $sql = 'SELECT arrivee FROM import_resultat';
+    //     $locationModel = new LocationModel();
+    //     $this->db->query('ALTER TABLE bien DISABLE TRIGGER ALL;');
+    
+    //     $sql = 'SELECT id_bien FROM bien';
     //     $query = $this->db->query($sql);
-    //     $results = $query->getResult();
-
-    //     $participantModel = new ParticipantModel();
-    //     foreach ($results as $row) {
-    //         $arrivee = $row->arrivee;
-    //         $participantModel->insertArrivee($arrivee);
+    
+    //     foreach ($query->getResultArray() as $row) {
+    //         $id_bien = $row['id_bien'];
+    //         $locationModel->insertIdBien($id_bien);
     //     }
+    
+    //     // Enable triggers again after the update is complete
+    //     $this->db->query('ALTER TABLE bien ENABLE TRIGGER ALL;');
     // }
 
+    public function insertCsvClient()
+    {
+        $this->db->query('ALTER TABLE location DISABLE TRIGGER ALL;');
+
+        $sql="INSERT INTO client (email) 
+        SELECT client 
+        FROM import_location 
+        GROUP BY client";
+        
+        $this->db->query($sql);
+        $this->db->query('ALTER TABLE location ENABLE TRIGGER ALL;');
+    }   
+    
+    public function insertCsvLocation()
+    {
+        $this->db->query('ALTER TABLE location DISABLE TRIGGER ALL;');
+        $sql="INSERT INTO location (id_bien, id_client, date_debut, duree) 
+        SELECT b.id_bien, c.id_client, il.date_debut, il.duree
+        FROM import_location il 
+        JOIN bien b ON b.reference = il.reference 
+        JOIN client c ON c.email = il.client 
+        GROUP BY b.id_bien, il.date_debut, il.duree, c.id_client";
+
+        $this->db->query($sql);
+        $this->db->query('ALTER TABLE location ENABLE TRIGGER ALL;');
+    }
+
+    // public function insertCsvCommission()
+    // {
+    //     $this->db->query('ALTER TABLE location DISABLE TRIGGER ALL;');
+    //     $sql="INSERT INTO location (id_bien, id_client, date_debut, duree) 
+    //     SELECT b.id_bien, c.id_client, il.date_debut, il.duree
+    //     FROM import_location il 
+    //     JOIN bien b ON b.reference = il.reference 
+    //     JOIN client c ON c.email = il.client 
+    //     GROUP BY b.id_bien, il.date_debut, il.duree, c.id_client";
+
+    //     $this->db->query($sql);
+    //     $this->db->query('ALTER TABLE location ENABLE TRIGGER ALL;');
+    // }
 
 }

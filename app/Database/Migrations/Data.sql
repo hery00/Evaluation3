@@ -18,7 +18,6 @@ INSERT INTO type_user (nom) VALUES ('Particulier');
 
 CREATE TABLE proprietaire (
     id_proprietaire SERIAL PRIMARY KEY,
-    nom VARCHAR(255) NOT NULL,
     telephone VARCHAR(20) NOT NULL,
     id_type_user INTEGER,
     foreign key(id_type_user) references type_user(id_type_user)
@@ -30,7 +29,6 @@ INSERT INTO proprietaire (nom,telephone,id_type_user) VALUES ('Fanirina','341202
 CREATE TABLE client
 (
     id_client SERIAL PRIMARY KEY,
-    nom VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     id_type_user INTEGER,
     foreign key(id_type_user) references type_user(id_type_user)
@@ -53,6 +51,7 @@ INSERT INTO typedebien (nom,commission) VALUES ('trano',10);
 
 CREATE TABLE bien (
     id_bien SERIAL PRIMARY KEY,
+    reference VARCHAR(100), 
     nom VARCHAR(255) NOT NULL,
     description TEXT,
     region VARCHAR(255) NOT NULL,
@@ -62,6 +61,11 @@ CREATE TABLE bien (
     FOREIGN KEY (id_proprietaire) REFERENCES proprietaire(id_proprietaire),
     FOREIGN KEY (id_typebien) REFERENCES typedebien(id_typebien)
 );
+
+-- ALTER TABLE bien DROP COLUMN reference;
+
+-- ALTER TABLE bien ADD COLUMN reference VARCHAR(100) AFTER id_bien;
+
 
 
 -- Insertion d'un immeuble
@@ -205,4 +209,25 @@ INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (4, '2
 --     montant_commission DECIMAL(10, 2)
 -- );
 
+CREATE TABLE import_bien (
+    reference VARCHAR(50),
+    nom VARCHAR(255),
+    description TEXT,
+    type VARCHAR(50),
+    region VARCHAR(50),
+    loyer_mensuel INTEGER,
+    proprietaire VARCHAR(50)
+);
+
+CREATE TABLE import_location (
+    reference VARCHAR(50),
+    date_debut DATE NOT NULL,
+    duree INTEGER,
+    client VARCHAR(50)
+);
+
+CREATE TABLE import_commission (
+    nom VARCHAR(50),
+    commission DECIMAL(5,2)
+);
 

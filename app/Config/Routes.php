@@ -9,7 +9,8 @@ $routes->get('/','AdminController::log');
 $routes->post('/login', 'AdminController::process');
 // $routes->get('admin/gain', 'AdminController::accueil');
 $routes->get('admin/gain', 'AdminController::calculatecommission');
-
+$routes->get('admin/import','ImportController::index');
+$routes->post('importcsv', 'ImportController::importcsv');
 
 $routes->get('/proprio', 'ProprietaireController::log');
 $routes->post('/proprio/login', 'ProprietaireController::loginproprietaire');

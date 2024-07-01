@@ -7,14 +7,19 @@
           <form method="post" action="<?= base_url('importcsv') ?>" enctype="multipart/form-data">
               <div class="col-lg-6">
                 <div class="row mb-3">
-                    <label for="inputNumber" class="col-sm-2 col-form-label">Importation Etapes</label>
+                    <label for="inputNumber" class="col-sm-2 col-form-label">Importation des biens</label>
                     <div class="col-sm-10">
-                    <input class="form-control" type="file" name="fichier" id="csv_file" required accept=".csv">
+                    <input class="form-control" type="file" name="bien" id="csv_file" required accept=".csv">
                 </div>
                 <div class="row mb-3">
-                    <label for="inputNumber" class="col-sm-2 col-form-label">Importation Resultat</label>
+                    <label for="inputNumber" class="col-sm-2 col-form-label">Importation des locations</label>
                     <div class="col-sm-10">
-                    <input class="form-control" type="file" name="resultat" id="csv_file" required accept=".csv">
+                    <input class="form-control" type="file" name="location" id="csv_file" required accept=".csv">
+                </div>
+                <div class="row mb-4">
+                    <label for="inputNumber" class="col-sm-2 col-form-label">Importation des commissions</label>
+                    <div class="col-sm-10">
+                    <input class="form-control" type="file" name="commission" id="csv_file" required accept=".csv">
                 </div>
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label"></label>

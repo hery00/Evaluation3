@@ -6,9 +6,9 @@ use App\Controllers\BaseController;
 use App\Models\EquipeModel;
 use App\Models\EtapesModel;
 use App\Models\ImportModel;
-use App\Models\ImportEtapeModel;
-use App\Models\ImportResultatModel;
-use App\Models\ImportPointModel;
+use App\Models\ImportBienModel;
+use App\Models\ImportLocationModel;
+use App\Models\ImportCommissionModel;
 use CodeIgniter\Files\File;
 
 class ImportController extends BaseController
@@ -18,7 +18,7 @@ class ImportController extends BaseController
         $data = [
             'content' => view('Pages/Import')
         ];
-        return view('Layout_Admin/layout',$data);
+        return view('LayoutAdmin/layout',$data);
     }
 
     public function importcsv()
@@ -26,108 +26,80 @@ class ImportController extends BaseController
         helper(['form', 'url']);
         $importModel = new ImportModel();
         
-        $file = $this->request->getFile('fichier');
-        //$filepath = WRITEPATH . 'uploads/' . $file->store();
+        $file = $this->request->getFile('bien');
         $cheminTemporaire = $file->getTempName();
-        
-       // return redirect()->back()->with('success', 'File imported successfully.');
 
-        $file2 = $this->request->getFile('resultat');
+        $file2 = $this->request->getFile('location');
         $cheminTemporaire2 = $file2->getTempName();
+
+        $file3 = $this->request->getFile('commission');
+        $cheminTemporaire3 = $file3->getTempName();
 
         $tab1 = $importModel -> import_csv($cheminTemporaire);
         $tab2 = $importModel -> import_csv($cheminTemporaire2);
-        $etapemodel = new ImportEtapeModel();
+        $tab3 = $importModel -> import_csv($cheminTemporaire3);
+
+        $bienmodel = new ImportBienModel();
 
         for ($i = 1; $i < count($tab1); $i++) 
         {
 
-            $etape = $tab1[$i][0];
-            $longueur = $tab1[$i][1];
-            $nb_coureur = $tab1[$i][2];
-            $rang_etape = $tab1[$i][3];
-            $date_depart = $tab1[$i][4];
-            $heure_depart = $tab1[$i][5];
+            $reference = $tab1[$i][0];
+            $nom = $tab1[$i][1];
+            $description = $tab1[$i][2];
+            $type = $tab1[$i][3];
+            $region = $tab1[$i][4];
+            $loyer_mensuel = $tab1[$i][5];
+            $proprietaire = $tab1[$i][6];
 
-            $etapemodel -> insertCsvData($etape, $longueur, $nb_coureur, $rang_etape, $date_depart, $heure_depart); 
+            $bienmodel -> insertCsvData($reference, $nom, $description, $type, $region, $loyer_mensuel,$proprietaire); 
         }
         
-        $etapemodel->insert_etapecsv();
 
         for ($i = 1; $i < count($tab2); $i++) 
         {
-            $resultatmodel = new ImportResultatModel();
+            $locationmodel = new ImportLocationModel();
 
-            $classement_rang = $tab2[$i][0];
-            $numero_dossard = $tab2[$i][1];
-            $nom = $tab2[$i][2];
-            $genre = $tab2[$i][3];
-            $date_naissance = $tab2[$i][4];
-            $equipe = $tab2[$i][5];
-            $arrivee = $tab2[$i][5];
+            $reference = $tab2[$i][0];
+            $date_debut = $tab2[$i][1];
+            $duree = $tab2[$i][2];
+            $client = $tab2[$i][3];
 
-            $resultatmodel -> insertCsvData($classement_rang, $numero_dossard, $nom, $genre, $date_naissance, $equipe, $arrivee); 
+            $locationmodel -> insertCsvData($reference, $date_debut, $duree, $client); 
         }
 
-        $importModel->insertCsvEquipe();
-        $importModel->insertCsvCoureur();
-        // $importModel->insertCsvArrivee();
-        
-        //var_dump($tab2);
-    }
-
-    //POINTS
-    public function import_points()
-    {
-        helper(['form', 'url']);
-        $importModel = new ImportModel();
-        
-        $file = $this->request->getFile('fichier');
-        //$filepath = WRITEPATH . 'uploads/' . $file->store();
-        $cheminTemporaire = $file->getTempName();
-        
-       // return redirect()->back()->with('success', 'File imported successfully.');
-
-        $tab1 = $importModel -> import_csv($cheminTemporaire);
-        // var_dump($tab1);
-        $PointModel = new ImportPointModel();
-        
-        for ($i = 1; $i < count($tab1); $i++) 
+        for ($i = 1; $i < count($tab3); $i++) 
         {
-
-            $classement = $tab1[$i][0];
-            $point = $tab1[$i][1];
-
-            $PointModel -> insertCsvPoint($classement, $point); 
-        }
-
-        $PointModel->insert_point_base();
-         
-    }
-
-    public function link_point()
-    {
-        $data = [
-            'content' => view('Pages/Import_Points')
-        ];
-        return view('Layout_Admin/layout',$data);
-    }
-
+            $commissionmodel = new ImportCommissionModel();
     
+            $nom = $tab3[$i][0];
+            $commission = $tab3[$i][1];
+            $commission = $this->nettoyer_commission($commission); // Nettoyer les pourcentages
+    
+            $commissionmodel->insertCsvData($nom, $commission); 
+        }
+        
+        $importModel ->insertCsvProprietaire();
+        $importModel ->insertCsvTypedebien();
+        $importModel->insertCsvBien();
 
-    //     for ($i = 1; $i < count($donnees); $i++) {
-    //         // $ligne = $donnees[$i];
-    //         $model = new ImportModel();
+        $importModel->insertCsvClient();
+        $importModel->insertCsvLocation();
 
-    //         $classement = $donnees[$i][0];
-    //         $longueur = $donnees[$i][1];
-    //         $nb_coureur = $donnees[$i][2];
-    //         $rang_classement = $donnees[$i][3];
-    //         $date_depart = $donnees[$i][4];
-    //         $heure_depart = $donnees[$i][5];
 
-    //         $model -> insertCsvData($classement, $longueur, $nb_coureur, $rang_classement, $date_depart, $heure_depart); 
-    //     }
-    // }
+        // $importModel->insertCsvCommission(); // Assurez-vous que cette méthode existe dans ImportModel
+        
+        // return $this->response->setStatusCode(200)->setBody('Importation réussie');
+    }
+
+    public function nettoyer_commission($commission)
+    {
+        $commission = trim($commission); // Nettoie les espaces
+        if (strpos($commission, '%') !== false) {
+            $commission = str_replace('%', '', $commission); // Enlève le caractère '%'
+        }
+        $commission = str_replace(',', '.', $commission); // Remplace la virgule par un point si nécessaire
+        return (float)$commission;
+    }
 
 }

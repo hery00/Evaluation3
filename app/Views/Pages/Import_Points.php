@@ -2,7 +2,7 @@
     <section class="section">
       <div class="row">
         <div class="card">
-        <h3 class="card-header">Importation de données</h3>
+        <h3 class="card-header">Importation des</h3>
           <div class="card-body">
           <form method="post" action="<?= base_url('importPoint') ?>" enctype="multipart/form-data">
               <div class="col-lg-6">

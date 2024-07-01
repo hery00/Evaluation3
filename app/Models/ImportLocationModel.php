@@ -4,19 +4,16 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ImportResultatModel extends Model
+class ImportLocationModel extends Model
 {
-    protected $table = 'import_resultat'; 
+    protected $table = 'import_location'; 
     protected $primaryKey = 'id'; 
 
     protected $allowedFields = [
-        'etape_rang',
-        'numero_dossard',
-        'nom',
-        'genre',
-        'date_naissance',
-        'equipe',
-        'arrivee'
+        'reference',
+        'date_debut',
+        'duree',
+        'client'
     ];
 
     // Optionnel : Si vous avez des colonnes de création et de mise à jour automatiques
@@ -37,10 +34,10 @@ class ImportResultatModel extends Model
      * @param string $equipe
      * @return bool
      */
-    public function insertCsvData($etape_rang, $numero_dossard, $nom, $genre, $date_naissance, $equipe, $arrivee)
+    public function insertCsvData($reference, $date_debut, $duree, $client)
     {
-        $sql = "INSERT INTO import_resultat VALUES ('%d','%d','%s','%s','%s','%s')";
-        $sql = sprintf($sql,$etape_rang, $numero_dossard, $nom, $genre, $date_naissance, $equipe, $arrivee);
+        $sql = "INSERT INTO import_location VALUES ('%s','%s','%d','%s')";
+        $sql = sprintf($sql,$reference, $date_debut, $duree, $client);
         echo $sql;
         $this->db->query($sql);
 

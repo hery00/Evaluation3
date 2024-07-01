@@ -21,4 +21,17 @@ class ProprietaireModel extends Model
         }
         return null;
     }
+
+    // public function insertTelephoneProprio($telephone)
+    //     {
+    //         $sql = 'UPDATE coureur 
+    //                 SET id_equipe = ?
+    //                 WHERE id_coureur = (
+    //                     SELECT id_coureur 
+    //                     FROM coureur 
+    //                     WHERE id_equipe IS NULL 
+    //                     LIMIT 1
+    //                 )';
+    //         $this->db->query($sql, [$id]);
+    //     }
 }

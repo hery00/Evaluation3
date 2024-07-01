@@ -4,14 +4,14 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ImportPointModel extends Model
+class ImportCommissionModel extends Model
 {
-    protected $table = 'import_point'; 
+    protected $table = 'import_commission'; 
     protected $primaryKey = 'id'; 
 
     protected $allowedFields = [
-        'classement',
-        'point'
+        'nom',
+        'commission'
     ];
 
     // Optionnel : Si vous avez des colonnes de création et de mise à jour automatiques
@@ -32,19 +32,19 @@ class ImportPointModel extends Model
      * @param string $heure_depart
      * @return bool
      */
-    public function insertCsvPoint($classement, $point)
+    public function insertCsvData($nom, $commission)
     {
-        $sql = "INSERT INTO import_point VALUES ('%d','%d')";
-        $sql = sprintf($sql,$classement, $point);
+        $sql = "INSERT INTO import_commission VALUES ('%s','%d')";
+        $sql = sprintf($sql,$nom, $commission);
         echo $sql;
         $this->db->query($sql);
 
     }
 
-    public function insert_point_base()
-    {
-        $sql = "INSERT INTO points (rang_point, points) SELECT classement, points FROM import_point GROUP BY classement, points ";
-        $this->db->query($sql);
-    }
+    // public function insert_point_base()
+    // {
+    //     $sql = "INSERT INTO points (rang_point, points) SELECT classement, points FROM import_point GROUP BY classement, points ";
+    //     $this->db->query($sql);
+    // }
 
 }
