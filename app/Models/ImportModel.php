@@ -54,20 +54,7 @@ class ImportModel extends Model
         $this->db->query($sql);
         $this->db->query('ALTER TABLE bien ENABLE TRIGGER ALL;');
     }   
-
-    public function insertCsvTypedebien()
-    {
-        $this->db->query('ALTER TABLE bien DISABLE TRIGGER ALL;');
-
-        $sql="INSERT INTO typedebien (nom) 
-        SELECT type 
-        FROM import_bien 
-        GROUP BY type";
-        
-        $this->db->query($sql);
-        $this->db->query('ALTER TABLE bien ENABLE TRIGGER ALL;');
-    }   
-
+ 
 
     public function insertCsvBien()
     {
@@ -82,6 +69,19 @@ class ImportModel extends Model
         
         $this->db->query($sql);
         $this->db->query('ALTER TABLE bien ENABLE TRIGGER ALL;');
+    }
+
+    public function insertCsvCommission()
+    {
+        $this->db->query('ALTER TABLE typedebien DISABLE TRIGGER ALL;');
+
+        $sql="INSERT INTO typedebien (nom,commission) 
+        SELECT nom,commission
+        FROM import_commission
+        GROUP BY nom,commission";
+        
+        $this->db->query($sql);
+        $this->db->query('ALTER TABLE typedebien ENABLE TRIGGER ALL;');
     }
     //location
     // public function insertCsvIdBienInLocation()
@@ -123,7 +123,6 @@ class ImportModel extends Model
         JOIN bien b ON b.reference = il.reference 
         JOIN client c ON c.email = il.client 
         GROUP BY b.id_bien, il.date_debut, il.duree, c.id_client";
-
         $this->db->query($sql);
         $this->db->query('ALTER TABLE location ENABLE TRIGGER ALL;');
     }

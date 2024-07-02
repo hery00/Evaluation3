@@ -8,9 +8,15 @@
             </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link collapsed" href="<?= base_url('/proprio/location') ?>">
+        <a class="nav-link collapsed" href="<?= base_url('/proprio/camois') ?>">
           <i class="bi bi-card-list"></i>
-          <span>Locations</span>
+          <span>Chiffre d'Affaires par mois</span>
+        </a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link collapsed" href="<?= base_url('/proprio/cafinal') ?>">
+          <i class="bi bi-card-list"></i>
+          <span>Chiffre d'Affaires Total par mois</span>
         </a>
         </li>
     </ul>

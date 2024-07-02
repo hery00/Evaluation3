@@ -7,6 +7,9 @@ use App\Models\ProprietaireModel;
 use App\Models\BienModel;
 use App\Models\PhotosModel;
 use App\Models\LocationModel;
+use App\Models\LocationDetailMoisModel;
+use App\Models\LocationDetailFinalModel;
+use App\Models\LocationDetailModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class ProprietaireController extends BaseController
@@ -54,34 +57,56 @@ class ProprietaireController extends BaseController
         return view('LayoutProprio/layout', $data);
     }
 
-    public function ListeLocationNetByDateByProprio()
+    
+    public function getChiffreAffaireMois()
     {
         $session = session();
         $user = $session->get('user');
         $id_proprio = $user['id_proprietaire'];
-        $locationmodel = new LocationModel();
+        $locationmodel = new LocationDetailMoisModel();
         $date1 = $this->request->getGet('date1');
         $date2 = $this->request->getGet('date2');
 
         if (empty($date1) && empty($date2))
         {
-            $data['ca'] = $locationmodel->getChiffreAffaireProprio($id_proprio);
+            $data['locations'] = $locationmodel->getLocationDetailMoisByProprio($id_proprio);
         } else {
-            $data['ca'] = $locationmodel->getChiffreAffaireProprioByDate($date1, $date2, $id_proprio);
+            $data['locations'] = $locationmodel->getLocationDetailMoisByDateByProprio($date1, $date2, $id_proprio);
         }
 
-        if (empty($date1) && empty($date2))
-        {  
-            $data['locations'] = $locationmodel->getLocationsNetByProprio($id_proprio);
-        } else {
-            // Sinon, obtenir le chiffre d'affaire et les locations par date et propriétaire
-            $data['locations'] = $locationmodel->getLocationsNetByDateByProprio($date1, $date2, $id_proprio);
-        }
-
+        
         // echo "<pre>" . print_r($data, true) . "</pre>";
 
         // Charger la vue de la page Location avec les données
-        $content = view('Pages/Location', $data);
+        $content = view('Pages/gainpropriomois', $data);
+
+        $layout_data = [
+            'content' => $content
+        ];
+
+        return view('LayoutProprio/layout', $layout_data);
+    }
+
+    public function getChiffreAffaireFinal()
+    {
+        $session = session();
+        $user = $session->get('user');
+        $id_proprio = $user['id_proprietaire'];
+        $locationmodel = new LocationDetailFinalModel();
+        $date1 = $this->request->getGet('date1');
+        $date2 = $this->request->getGet('date2');
+
+        if (empty($date1) && empty($date2))
+        {
+            $data['locations'] = $locationmodel->getLocationDetailFinalByProprio($id_proprio);
+        } else {
+            $data['locations'] = $locationmodel->getLocationDetailFinalByDateByProprio($date1, $date2, $id_proprio);
+        }
+        
+        // echo "<pre>" . print_r($data, true) . "</pre>";
+
+        // Charger la vue de la page Location avec les données
+        $content = view('Pages/gainpropriofinal', $data);
         $layout_data = [
             'content' => $content
         ];
@@ -92,16 +117,15 @@ class ProprietaireController extends BaseController
 
     public function testGetChiffreAffaire()
 {
-    $id_proprietaire = 1;
-    $date1 ='01/06/2024';
-    $date2 ='30/08/2024';
+  
     $locationModel = new LocationModel();
-    $difference = $locationModel->calculateMonthsDifference($date1,$date2);
-    
-    // Affichage pour le débogage
+    $Model = new LocationDetailModel();
+    $difference = $locationModel->getAllLocationIDs();
+
     echo '<pre>';
     print_r($difference);
     echo '</pre>';
+    $Model->genererdetailslocations($difference);
 }
 
 }

@@ -32,9 +32,9 @@ class ImportCommissionModel extends Model
      * @param string $heure_depart
      * @return bool
      */
-    public function insertCsvData($nom, $commission)
+    public function insertCsvData($nom,$commission)
     {
-        $sql = "INSERT INTO import_commission VALUES ('%s','%d')";
+        $sql = "INSERT INTO import_commission VALUES ('%s','%s')";
         $sql = sprintf($sql,$nom, $commission);
         echo $sql;
         $this->db->query($sql);

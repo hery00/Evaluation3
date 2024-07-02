@@ -43,7 +43,6 @@ class ImportBienModel extends Model
         $sql = sprintf($sql,$reference, $nom, $description, $type, $region, $loyer_mensuel, $proprietaire);
         echo $sql;
         $this->db->query($sql);
-
     }
 
     // public function insert_etapecsv()

@@ -5,11 +5,11 @@
                 <div class="card">
                     <div class="card-body">
                     <div class="row">
-                            <div class="col-lg-6"><br/><br/><h5 class="card-title">LISTES DES LOYERS</h5></div>
+                            <div class="col-lg-6"><br/><br/><h5 class="card-title">LISTES DES GAINS</h5></div>
                             <div class="col-lg-6">
                             </div>  
                         </div>
-                        <form id="choixForm" action="<?= base_url('/client/listeloyer') ?>" method="GET">
+                        <form id="choixForm" action="<?= base_url('/admin/gainmois') ?>" method="GET">
                                 <div class="row">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-4">
@@ -40,7 +40,7 @@
                             <th>Mois</th>
                             <th>Revenue</th>
                             <th>Commission (%)</th>
-                            <th>Status</th>
+                            <th>Gains Par mois</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,12 +48,10 @@
                         <tr>
                             <td><?= esc($location['num_mois']); ?></td>
                             <td><?= esc($location['type_bien']); ?></td>
-                            <td><?= esc($location['date_fin_prevus']); ?></td>
-                            <td><?= esc($location['loyer_par_mois']); ?></td>
-                            <td><?= esc($location['commission']); ?>%</td>
-                            <td style="<?= esc($location['status']) === 'payer' ? 'color: green;' : 'color: red;'?>">
-                                <?= esc($location['status']);?>
-                            </td>
+                            <td><?= esc($location['payment_date']); ?></td>
+                            <td><?= esc($location['ca_admin']); ?></td>
+                            <td><?= esc($location['commission']); ?></td>
+                            <td><?= esc($location['montant_commission']); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

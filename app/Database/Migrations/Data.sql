@@ -180,35 +180,6 @@ INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (4, '2
 INSERT INTO paiementloyer (id_location, date_paiement, loyer_paye) VALUES (4, '2024-03-05', 800.00);
 
 
--- CREATE TABLE location_commission (
---     id_location SERIAL PRIMARY KEY,
---     id_bien INTEGER NOT NULL,
---     id_client INTEGER NOT NULL,
---     date_debut DATE NOT NULL,
---     date_fin_prevus DATE,
---     duree INTEGER NOT NULL,
---     montant_commission DECIMAL(10, 2)
--- );
-
-
--- CREATE TABLE location_commission(
---     id_location INTEGER,
---     id_bien INT NOT NULL,
---     id_proprietaire INT NOT NULL,
---     nom_bien VARCHAR(255),
---     description TEXT,
---     region VARCHAR(255),
---     loyer_par_mois DECIMAL(10, 2),
---     nom_proprietaire VARCHAR(255),
---     nom_typebien VARCHAR(255),
---     commission DECIMAL(5, 2),
---     id_client INT NOT NULL,
---     date_debut DATE,
---     duree INT,
---     date_fin_prevus DATE,
---     montant_commission DECIMAL(10, 2)
--- );
-
 CREATE TABLE import_bien (
     reference VARCHAR(50),
     nom VARCHAR(255),
@@ -230,4 +201,24 @@ CREATE TABLE import_commission (
     nom VARCHAR(50),
     commission DECIMAL(5,2)
 );
+
+CREATE TABLE detail_locations (
+    id SERIAL PRIMARY KEY,
+    id_location INT NOT NULL,
+    id_client INT NOT NULL,
+    id_bien INT NOT NULL,
+    duree INT NOT NULL,
+    date_debut DATE NOT NULL,
+    date_fin_prevus DATE NOT NULL,
+    loyer_par_mois DECIMAL(10, 2) NOT NULL,
+    commission DECIMAL(5, 2) NOT NULL,
+    montant_commission DECIMAL(10, 2) NOT NULL,
+    CA_admin DECIMAL(10, 2) NOT NULL,
+    CA_proprio DECIMAL(10, 2) NOT NULL,
+    type_bien VARCHAR(255) NOT NULL,
+    id_proprietaire INT NOT NULL,
+    initial_payment_date DATE NOT NULL,
+    payment_date DATE NOT NULL
+);
+
 

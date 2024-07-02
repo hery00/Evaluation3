@@ -4,7 +4,8 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\AdminModel;
-use App\Models\LocationModel;
+use App\Models\LocationDetailFinalModel;
+use App\Models\LocationDetailMoisModel;
 use App\Models\LocationCommissionModel;
 
 class AdminController extends BaseController
@@ -21,7 +22,7 @@ class AdminController extends BaseController
         return view('Pages/inscription');
     }
 
-    
+
     public function process()
     {
         $userModel = new AdminModel();
@@ -40,7 +41,7 @@ class AdminController extends BaseController
                 $session->set('nom', $user['nom']);
                 $session->set('login', $user['login']);
 
-                return redirect()->to('admin/gain'); 
+                return redirect()->to('admin/gainmois'); 
                 // echo "tafiditra";
             } else {
                 // Mot de passe incorrect
@@ -103,78 +104,46 @@ class AdminController extends BaseController
         return redirect()->to('admin_login');
     }
 
-    public function calculateCommission()
+    public function getCommissionFinal()
 {
-    $locationModel = new LocationModel();
+    $locationModel = new LocationDetailFinalModel();
     
     $date1 = $this->request->getGet('date1');
     $date2 = $this->request->getGet('date2');
 
     if (empty($date1) && empty($date2)) {
-        $locations = $locationModel->getLocations();
+        $data['locations'] = $locationModel->getLocationDetailFinal();
     } else {
-        $locations = $locationModel->getLocationsByDate($date1, $date2);
+        $data['locations']  = $locationModel->getLocationDetailFinalByDate($date1, $date2);
     }
 
-    $data = []; // Initialise $data comme un tableau
-    $totalLoyerParMois = 0;
-    $totalCommission = 0;
 
-    foreach ($locations as $location) {
-        $date_debut = $location['date_debut'];
-        $date_fin_prevus = $location['date_fin_prevus'];
-        $duree = $location['duree'];
+   
+    $content = view('Pages/gainadminfinal', $data);
 
-        if ($date_debut >= $date1 && $date_debut < $date2) {
-            if ($date_fin_prevus > $date_debut && $date_fin_prevus <= $date2) {
-                $duree = $location['duree'];
-            } elseif ($date_fin_prevus > $date_debut && $date_fin_prevus >= $date2) {
-                $duree = $locationModel->calculateMonthsDifference($date_debut, $date2);
-                $date_fin_prevus = $date2;
-            } else {
-                $duree = $locationModel->calculateMonthsDifference($date_debut, $date_fin_prevus);
-            }
-        } elseif ($date_debut <= $date1 && $date_fin_prevus >= $date1) {
-            if ($date_fin_prevus <= $date2) {
-                $duree = $locationModel->calculateMonthsDifference($date1, $date_fin_prevus);
-                $date_debut = $date1;
-            } elseif ($date_fin_prevus > $date2) {
-                $duree = $locationModel->calculateMonthsDifference($date1, $date2);
-                $date_fin_prevus = $date2;
-            } else {
-                $duree = $locationModel->calculateMonthsDifference($date_debut, $date_fin_prevus);
-            }
-        }
+    $layout_data = [
+        'content' => $content
+    ];
 
-       
+    return view('LayoutAdmin/layout', $layout_data);
+}
 
-        $loyer_par_mois = $location['loyer_par_mois'];
-        $taux_commission = $location['commission'] / 100;
-        $montant_commission = $loyer_par_mois * $duree * $taux_commission;
+    public function getCommissionMois()
+{
+    $locationModel = new LocationDetailMoisModel();
+    
+    $date1 = $this->request->getGet('date1');
+    $date2 = $this->request->getGet('date2');
 
-        $totalLoyerParMois += $loyer_par_mois;
-        $totalCommission += $montant_commission;
-
-        $data[] = [
-            'id_location' => $location['id_location'],
-            'id_bien' => $location['id_bien'],
-            'id_client' => $location['id_client'],
-            'id_proprietaire' => $location['id_proprietaire'],
-            'nom_proprietaire' => $location['nom_proprietaire'],
-            'nom_typebien' => $location['nom_typebien'],
-            'nom_bien' => $location['nom_bien'],
-            'loyer_par_mois' => $location['loyer_par_mois'],
-            'commission' => $location['commission'],
-            'date_debut' => $date_debut,
-            'date_fin_prevus' => $date_fin_prevus,
-            'duree' => $duree,
-            'montant_commission' => $montant_commission,
-            'total_loyer_commission' => $loyer_par_mois + $montant_commission,
-        ];
+    if (empty($date1) && empty($date2)) {
+        $data['locations'] = $locationModel->getLocationDetailMois();
+    } else {
+        $data['locations']  = $locationModel->getLocationDetailMoisByDate($date1, $date2);
     }
 
-    $finalTotal = $totalLoyerParMois + $totalCommission;
-    $content = view('Pages/gainadmin', ['commissions' => $data , 'final_total' => $finalTotal]);
+
+   
+    $content = view('Pages/gainadminmois', $data);
 
     $layout_data = [
         'content' => $content

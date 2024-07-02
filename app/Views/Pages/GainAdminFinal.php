@@ -5,12 +5,11 @@
                 <div class="card">
                     <div class="card-body">
                     <div class="row">
-                            <div class="col-lg-6"><br/><br/><h5 class="card-title">LISTES DES GAINS</h5></div>
+                            <div class="col-lg-6"><br/><br/><h5 class="card-title">LISTES DES TOTAL DES GAINS</h5></div>
                             <div class="col-lg-6">
-                            <br/><br/><h2 style="text-align: right">Chiffre d'Affaires: <?= esc($final_total)?> Mga</h2>
                             </div>  
                         </div>
-                        <form id="choixForm" action="<?= base_url('/admin/gain') ?>" method="GET">
+                        <form id="choixForm" action="<?= base_url('/admin/gainfinal') ?>" method="GET">
                                 <div class="row">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-4">
@@ -32,27 +31,25 @@
                             </form>
                     </div>
                 
-                <?php if (!empty($commissions) && is_array($commissions)): ?>
+                <?php if (!empty($locations) && is_array($locations)): ?>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>ID Bien</th>
-                            <th>Date de Début</th>
-                            <th>Date de Fin Prévue</th>
-                            <th>Durée (mois)</th>
-                            <th>Montant Commission (Ar)</th>
-                            <th>Gains (Ar)</th>
+                            <th>Numero mois</th>
+                            <th>Annee</th>
+                            <th>Mois</th>
+                            <th>CA Par mois</th>
+                            <th>Gains Par mois</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($commissions as $commission): ?>
+                    <?php foreach ($locations as $location): ?>
                         <tr>
-                            <td><?= esc($commission['id_bien']); ?></td>
-                            <td><?= esc($commission['date_debut']); ?></td>
-                            <td><?= esc($commission['date_fin_prevus']); ?></td>
-                            <td><?= esc($commission['duree']); ?></td>
-                            <td><?= esc($commission['montant_commission']); ?></td>
-                            <td><?= esc($commission['total_loyer_commission']); ?></td>
+                            <td><?= esc($location['num_mois']); ?></td>
+                            <td><?= esc($location['annee']); ?></td>
+                            <td><?= esc($location['mois']); ?></td>
+                            <td><?= esc($location['total_ca_admin']); ?></td>
+                            <td><?= esc($location['total_montant_commission']); ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

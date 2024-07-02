@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\EquipeModel;
-use App\Models\EtapesModel;
+use App\Models\LocationDetailModel;
 use App\Models\ImportModel;
+use App\Models\LocationModel;
 use App\Models\ImportBienModel;
 use App\Models\ImportLocationModel;
 use App\Models\ImportCommissionModel;
@@ -25,6 +25,8 @@ class ImportController extends BaseController
     {
         helper(['form', 'url']);
         $importModel = new ImportModel();
+        $locationModel = new LocationModel();
+        $LocationDetailModel = new LocationDetailModel();
         
         $file = $this->request->getFile('bien');
         $cheminTemporaire = $file->getTempName();
@@ -80,16 +82,12 @@ class ImportController extends BaseController
         }
         
         $importModel ->insertCsvProprietaire();
-        $importModel ->insertCsvTypedebien();
+        $importModel->insertCsvCommission();
         $importModel->insertCsvBien();
-
         $importModel->insertCsvClient();
         $importModel->insertCsvLocation();
-
-
-        // $importModel->insertCsvCommission(); // Assurez-vous que cette méthode existe dans ImportModel
-        
-        // return $this->response->setStatusCode(200)->setBody('Importation réussie');
+        $locationIDs = $locationModel->getAllLocationIDs();
+        $LocationDetailModel->genererdetailslocations($locationIDs);
     }
 
     public function nettoyer_commission($commission)
