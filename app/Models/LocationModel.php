@@ -25,11 +25,18 @@ class LocationModel extends Model
 
     public function insertLocation($data)
     {
-        $this->insert($data);
-        $idLocation = $this->insertID();
+        $existingLocation = $this->where('id_bien', $data['id_bien'])
+                                 ->where('id_client', $data['id_client'])
+                                 ->where('date_debut', $data['date_debut'])
+                                 ->first();
 
-        // Générer les enregistrements détaillés pour la location insérée
-        $this->generateDetailedRecords([$idLocation]);
+        if ($existingLocation) {
+            return false; 
+        }
+        $this->insert($data);
+
+        // Retourner l'ID de la nouvelle location
+        return $this->getInsertID();
     }
 
 

@@ -30,7 +30,7 @@ CREATE TABLE client
 (
     id_client SERIAL PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
-    id_type_user INTEGER,
+    id_type_user INTEGER DEFAULT 1,
     foreign key(id_type_user) references type_user(id_type_user)
 );
 

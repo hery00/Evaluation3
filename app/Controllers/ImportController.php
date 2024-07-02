@@ -88,7 +88,10 @@ class ImportController extends BaseController
         $importModel->insertCsvLocation();
         $locationIDs = $locationModel->getAllLocationIDs();
         $LocationDetailModel->genererdetailslocations($locationIDs);
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
         return redirect()->to('admin/gainmois');
     }
 

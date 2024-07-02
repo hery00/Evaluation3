@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\AdminModel;
 use App\Models\LocationDetailFinalModel;
 use App\Models\LocationDetailMoisModel;
+use App\Models\BienModel;
 use App\Models\LocationCommissionModel;
 
 class AdminController extends BaseController
@@ -106,8 +107,10 @@ class AdminController extends BaseController
 
     public function link_formulaireLocation()
     {
+        $model = new BienModel();
+        $data['biens'] = $model->getBiens();
         $data = [
-            'content' => view('Pages/FormulaireLocation')
+            'content' => view('Pages/FormulaireLocation',$data)
         ];
         return view('LayoutAdmin/layout',$data);
     }

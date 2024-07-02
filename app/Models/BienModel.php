@@ -10,8 +10,15 @@ class BienModel extends Model
     protected $primaryKey = 'id_bien';
     protected $allowedFields = ['nom', 'description', 'region', 'loyer_par_mois', 'id_proprietaire', 'id_typebien'];
 
+
+    public function getBiens()
+    {
+        return $this->findAll();
+    }
+
     public function getBiensByProprietaire($id_proprietaire)
     {
         return $this->where('id_proprietaire', $id_proprietaire)->findAll();
     }
+   
 }

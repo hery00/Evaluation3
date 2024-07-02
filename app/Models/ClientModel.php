@@ -21,4 +21,23 @@ class ClientModel extends Model
         }
         return null;
     }
+
+    public function insertClient($email)
+    {
+        $data = [
+            'email' => $email
+        ];
+
+
+        $existingClient = $this->where('email', $email)->first();
+
+        if ($existingClient) {
+            return false;
+        }
+
+        $this->insert($data);
+        
+        return $this->getInsertID();
+    }
+
 }
