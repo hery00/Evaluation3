@@ -218,7 +218,9 @@ CREATE TABLE detail_locations (
     type_bien VARCHAR(255) NOT NULL,
     id_proprietaire INT NOT NULL,
     initial_payment_date DATE NOT NULL,
-    payment_date DATE NOT NULL
+    payment_date DATE NOT NULL,
+    num_mois INT NOT NULL,
+    mois INT NOT NULL
 );
 
 

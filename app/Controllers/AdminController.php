@@ -101,9 +101,17 @@ class AdminController extends BaseController
         // Déconnectez l'administrateur en supprimant sa session
         $session = session();
         $session->remove('admin_id');
-        return redirect()->to('admin_login');
+        return redirect()->to('/');
     }
 
+    public function link_formulaireLocation()
+    {
+        $data = [
+            'content' => view('Pages/FormulaireLocation')
+        ];
+        return view('LayoutAdmin/layout',$data);
+    }
+    
     public function getCommissionFinal()
 {
     $locationModel = new LocationDetailFinalModel();

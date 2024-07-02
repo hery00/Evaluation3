@@ -20,18 +20,18 @@ class ResetDataModel extends Model
             $db = \Config\Database::connect($this->DBGroup);
             
             $tables = [
-                'course', 
-                'categorie',
-                'equipe',  
-                'coureur',
-                'coureurcategorie', 
-                'etape',
-                'etapecategorie',
-                'participation',
-                'penalite',
-                'import_etape', 
-                'import_resultat', 
-                'import_point'
+                'proprietaire', 
+                'typedebien',
+                'bien',  
+                'client',
+                'location', 
+                'photos',
+                'type_user',
+                'import_bien',
+                'import_commission', 
+                'import_location',
+                'detail_locations'
+
             ];
 
             $db->query('SET CONSTRAINTS ALL DEFERRED');

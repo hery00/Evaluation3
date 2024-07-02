@@ -19,5 +19,12 @@
           <span>Chiffre d'Affaires Total par mois</span>
         </a>
         </li>
+        <li class="nav-item">
+            <center> 
+                <form action="<?= site_url('/proprio/logout') ?>" method="post">
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
+            </center>
+        </li>
     </ul>
 </aside><!-- End Sidebar-->

@@ -9,6 +9,10 @@ $routes->get('/','AdminController::log');
 $routes->post('/login', 'AdminController::process');
 $routes->get('admin/gainfinal', 'AdminController::getcommissionfinal');
 $routes->get('admin/gainmois', 'AdminController::getcommissionmois');
+$routes->get('admin/resetables', 'ResetData_Controller::resetdata');
+$routes->post('admin/logout', 'AdminController::logout');
+$routes->get('admin/formulairelocation','AdminController::link_formulaireLocation');
+
 
 $routes->get('admin/import','ImportController::index');
 $routes->post('importcsv', 'ImportController::importcsv');
@@ -18,6 +22,8 @@ $routes->post('/proprio/login', 'ProprietaireController::loginproprietaire');
 $routes->get('/proprio/listebiens', 'ProprietaireController::listebiensbyproprietaire');
 $routes->get('/proprio/camois', 'ProprietaireController::getchiffreaffairemois');
 $routes->get('/proprio/cafinal', 'ProprietaireController::getchiffreaffairefinal');
+$routes->post('/proprio/logout', 'ProprietaireController::logout');
+
 
 
 
@@ -26,6 +32,8 @@ $routes->get('/proprio/test', 'ProprietaireController::testgetchiffreaffaire');
 $routes->get('/client', 'ClientController::index');
 $routes->post('/client/login', 'ClientController::loginclient');
 $routes->get('/client/listeloyer', 'ClientController::listeloyerbydatebyclient');
+$routes->get('/client/logout', 'ClientController::logout');
+
 
 
 $routes->get('/client', 'ClientController::index');

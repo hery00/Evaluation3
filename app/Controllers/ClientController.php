@@ -67,7 +67,14 @@ class ClientController extends BaseController
     return view('LayoutClient/layout', $layout_data);
 }
 
-    
+    public function logout()
+    {
+        // Déconnectez l'administrateur en supprimant sa session
+        $session = session();
+        $session->remove('client_id');
+        return redirect()->to('/client');
+    }
+
     
     
     

@@ -138,4 +138,13 @@ class ProprietaireController extends BaseController
     $Model->genererdetailslocations($difference);
 }
 
+    public function logout()
+    {
+        // Déconnectez l'administrateur en supprimant sa session
+        $session = session();
+        $session->remove('proprietaire_id');
+        return redirect()->to('/proprio');
+    }
+
+
 }

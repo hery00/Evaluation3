@@ -21,7 +21,7 @@ class ResetData_Controller extends BaseController
         $data = [
             'content' => view('Pages/import')
         ];
-        return view('Layout_Admin/layout',$data);
+        return view('LayoutAdmin/layout',$data);
     
     }
 }
