@@ -8,12 +8,6 @@
             </a>
         </li>
         <li class="nav-item">
-        <a class="nav-link collapsed" href="<?= base_url('/proprio/location') ?>">
-          <i class="bi bi-card-list"></i>
-          <span>Locations</span>
-        </a>
-        </li>
-        <li class="nav-item">
             <center> 
                 <form action="<?= site_url('/client/logout') ?>" method="post">
                     <button type="submit" class="btn btn-primary">Logout</button>
