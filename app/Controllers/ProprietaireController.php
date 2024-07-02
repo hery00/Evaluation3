@@ -38,24 +38,34 @@ class ProprietaireController extends BaseController
     }
 
     public function listebiensByProprietaire()
-    {
-        $session = session();
-        $user = $session->get('user');
-        $id_proprio=$user['id_proprietaire'];
-        $model = new BienModel();
-        $photomodel =  new PhotosModel();
-        $data['biens'] = $model->getBiensByProprietaire($id_proprio);
-    
-        foreach ($data['biens'] as &$bien)
-        {
-            $bien['photo'] = $photomodel->getPhotoByBien($bien['id_bien']);
-        }
-        $data = [
-            'content' => view('Pages/ListeBiens', $data)
-        ];
-    
-        return view('LayoutProprio/layout', $data);
+{
+    $session = session();
+    $user = $session->get('user');
+    $id_proprio = $user['id_proprietaire'];
+    $model = new BienModel();
+    $locationdetailmodel = new LocationDetailMoisModel();
+    $photomodel = new PhotosModel();
+    $data['biens'] = $model->getBiensByProprietaire($id_proprio);
+
+    foreach ($data['biens'] as &$bien) {
+        $bien['photo'] = $photomodel->getPhotoByBien($bien['id_bien']);
+
+        // Calcul de la date de disponibilité
+        $lastPayment = $locationdetailmodel->getLastPaymentByBien($bien['id_bien']);
+        if ($lastPayment) {
+            $lastDate = new \DateTime($lastPayment['date_fin_prevus']);
+            $lastDate->modify('+1 day'); // Ajoute 1 jour
+            $bien['date_disponibilite'] = $lastDate->format('Y-m-d');
+        } 
     }
+
+    $data = [
+        'content' => view('Pages/ListeBiens', $data)
+    ];
+
+    return view('LayoutProprio/layout', $data);
+}
+
 
     
     public function getChiffreAffaireMois()

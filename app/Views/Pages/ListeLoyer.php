@@ -30,7 +30,7 @@
                                 </div>
                             </form>
                     </div>
-                
+                    
                 <?php if (!empty($locations) && is_array($locations)): ?>
                 <table class="table">
                     <thead>

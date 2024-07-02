@@ -36,6 +36,16 @@ class LocationDetailMoisModel extends Model
     }
 
 
+        public function getLastPaymentByBien($id_bien)
+    {
+        $builder = $this->db->table('detail_locations');
+        $builder->select('*');
+        $builder->where('id_bien', $id_bien);
+        $builder->orderBy('date_fin_prevus', 'DESC');
+        $builder->limit(1);
+        return $builder->get()->getRowArray();
+    }
+
     public function getLocationDetailMoisByProprio($id_proprietaire)
     {
         return $this->where('id_proprietaire',$id_proprietaire)

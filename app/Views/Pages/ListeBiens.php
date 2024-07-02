@@ -17,11 +17,13 @@
                             <div class="col-md-8">
                             <div class="card-body">
                                 <h5 class="card-title fw-bold fs-5 mb-0"><?= esc($bien['nom']) ?></h5>
-                                <p class="card-text">
+                                <h4 style="color:green" class="card-title fw-bold fs-5 mb-0">
+                                  <span>Date de disponibilité: <?= esc($bien['date_disponibilite']) ?></span><br>
+                                </h4>
                                 <span><?= esc($bien['description']) ?></span><br>
-                                <span>Région: <?= esc($bien['region']) ?></span><br>
-                                <span>Loyer par mois: <?= esc($bien['loyer_par_mois']) ?>Ar</span><br>
-                                </p>
+                                <h5><span>Région: <?= esc($bien['region']) ?></span><br></h5>
+                                <h3><span>Loyer par mois: <?= esc($bien['loyer_par_mois']) ?>Ar</span><br></h3>
+
                             </div>
                             </div>
                         </div>
