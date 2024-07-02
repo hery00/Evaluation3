@@ -19,7 +19,7 @@ INSERT INTO type_user (nom) VALUES ('Particulier');
 CREATE TABLE proprietaire (
     id_proprietaire SERIAL PRIMARY KEY,
     telephone VARCHAR(20) NOT NULL,
-    id_type_user INTEGER,
+    id_type_user INTEGER DEFAULT 1,
     foreign key(id_type_user) references type_user(id_type_user)
 );
 
