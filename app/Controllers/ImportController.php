@@ -88,6 +88,8 @@ class ImportController extends BaseController
         $importModel->insertCsvLocation();
         $locationIDs = $locationModel->getAllLocationIDs();
         $LocationDetailModel->genererdetailslocations($locationIDs);
+
+        return redirect()->to('admin/gainmois');
     }
 
     public function nettoyer_commission($commission)

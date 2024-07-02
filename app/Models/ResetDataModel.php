@@ -26,7 +26,6 @@ class ResetDataModel extends Model
                 'client',
                 'location', 
                 'photos',
-                'type_user',
                 'import_bien',
                 'import_commission', 
                 'import_location',
